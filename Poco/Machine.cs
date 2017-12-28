@@ -51,7 +51,6 @@ namespace Poco
             base.Dispose();
         }
 
-        readonly float _Scale = 1;
         readonly GraphicsContext _Context;
         readonly Input _Input;
         readonly Sprite _Sprite;

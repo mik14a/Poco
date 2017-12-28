@@ -12,9 +12,8 @@ namespace Poco
 
         public int Priority { get; set; }
 
-        public Character this[int x, int y] {
-            get { return _Map[x + y * _Size]; }
-            set { _Map[x + y * _Size] = value; }
+        public ref Character this[int x, int y] {
+            get { return ref _Map[x + y * _Size]; }
         }
 
         public Background(int mapSize, int videoRamSize) {

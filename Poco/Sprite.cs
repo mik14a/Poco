@@ -8,9 +8,12 @@ namespace Poco
 {
     public class Sprite : IEnumerable<Object>, IDisposable
     {
-        public Object this[int index] {
-            get { return _Attribute[index]; }
-            set { _Attribute[index] = value; }
+        public int Size => _Size;
+
+        public VideoRam VideoRam => _VideoRam;
+
+        public ref Object this[int index] {
+            get { return ref _Attribute[index]; }
         }
 
         public Sprite(int attributeSize, int videoRamSize) {

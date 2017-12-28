@@ -19,14 +19,14 @@ namespace Poco
             GL.BindTexture(TextureTarget.Texture2D, _Texture);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
-            InvalidateTexture();
+            Invalidate();
         }
 
         public Graphics CreateGraphics() {
             return Graphics.FromImage(_Bitmap);
         }
 
-        public void InvalidateTexture() {
+        public void Invalidate() {
             var bitmapData = LockBits(_Bitmap);
             TexImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
             UnlockBits(_Bitmap, bitmapData);
@@ -40,7 +40,7 @@ namespace Poco
 
         readonly int _Size;
         readonly Bitmap _Bitmap;
-        int _Texture;
+        readonly int _Texture;
 
         static BitmapData LockBits(Bitmap bitmap) {
             var rectangle = new Rectangle(Point.Empty, bitmap.Size);
