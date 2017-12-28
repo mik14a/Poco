@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poco", "Poco\Poco.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poco.Sail", "Poco.Sail\Poco.Sail.csproj", "{A01EE634-44BB-404E-BFAF-BFD2167DD483}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poco.Gui", "Poco.Gui\Poco.Gui.csproj", "{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,18 @@ Global
 		{A01EE634-44BB-404E-BFAF-BFD2167DD483}.Release|x64.Build.0 = Release|Any CPU
 		{A01EE634-44BB-404E-BFAF-BFD2167DD483}.Release|x86.ActiveCfg = Release|Any CPU
 		{A01EE634-44BB-404E-BFAF-BFD2167DD483}.Release|x86.Build.0 = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|x64.Build.0 = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Debug|x86.Build.0 = Debug|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|x64.ActiveCfg = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|x64.Build.0 = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|x86.ActiveCfg = Release|Any CPU
+		{4220E3F1-A71F-4CCB-8DFE-F3D256CDE171}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
