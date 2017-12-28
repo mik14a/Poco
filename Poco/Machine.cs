@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -22,39 +20,26 @@ namespace Poco
 
         public Machine(int width, int height, int scale, string title)
             : base(width * scale, height * scale, title, GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default) {
+            float scaleFactor = 1f;
             using (var graphics = Graphics.FromHwnd(WindowInfo.Handle)) {
-                _Scale = scale * graphics.DpiX / 96f;
+                scaleFactor = scale * graphics.DpiX / 96f;
             }
 
             _Context = new GraphicsContext(GraphicsMode.Default, WindowInfo, 1, 0, GraphicsContextFlags.Default);
             _Context.MakeCurrent(WindowInfo);
             _Context.LoadAll();
 
-            GL.Viewport(0, 0, ClientSize.Width, ClientSize.Height);
-            GL.FrontFace(FrontFaceDirection.Cw);
-            GL.ClearColor(Color4.Black);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
-
             _Input = new Input();
-            _Sprite = new Sprite(256);
+            _Sprite = new Sprite(256, 256);
             _Backgrounds = new Backgrounds(1, 32, 256);
+            _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor);
         }
 
         public void Execute() {
             EnsureUndisposed();
             if (Exists) {
                 _Input.Populate();
-                GL.Clear(ClearBufferMask.ColorBufferBit);
-                GL.MatrixMode(MatrixMode.Projection);
-                GL.LoadIdentity();
-                GL.Ortho(0, ClientSize.Width, ClientSize.Height, 0, -1, 1);
-                GL.Scale(_Scale, _Scale, 1f);
-                GL.MatrixMode(MatrixMode.Modelview);
-                GL.PushMatrix();
-                _Sprite.Draw();
-                _Backgrounds.Draw();
-                GL.PopMatrix();
+                _Rasterizer.Rasterize(_Sprite, _Backgrounds);
                 _Context.SwapBuffers();
             }
         }
@@ -71,5 +56,6 @@ namespace Poco
         readonly Input _Input;
         readonly Sprite _Sprite;
         readonly Backgrounds _Backgrounds;
+        readonly Rasterizer _Rasterizer;
     }
 }

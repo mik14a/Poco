@@ -1,33 +1,38 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Poco
 {
-    public class Backgrounds : IDisposable
+    public class Backgrounds : IEnumerable<Background>, IDisposable
     {
-        public int Count => _Background.Count;
+        public int Count => _Count;
 
         public Background this[int index] => _Background[index];
 
         public Backgrounds(int numberOfPlane, int mapSize, int videoRamSize) {
-            for (int i = 0; i < numberOfPlane; ++i) {
-                _Background.Add(new Background(mapSize, videoRamSize));
+            _Count = numberOfPlane;
+            _Background = new Background[_Count];
+            for (var i = 0; i < _Background.Length; ++i) {
+                _Background[i] = new Background(mapSize, videoRamSize);
             }
         }
 
-        public void Draw() {
-            _Background.ForEach(b => b.Draw());
+        public IEnumerator<Background> GetEnumerator() {
+            return ((IEnumerable<Background>)_Background).GetEnumerator();
         }
 
         public void Dispose() {
-            _Background.ForEach(b => b.Dispose());
-            _Background.Clear();
+            Array.ForEach(_Background, b => b.Dispose());
             GC.SuppressFinalize(this);
         }
 
-        readonly List<Background> _Background = new List<Background>();
+        IEnumerator IEnumerable.GetEnumerator() {
+            return _Background.GetEnumerator();
+        }
+
+        readonly int _Count;
+        readonly Background[] _Background;
     }
 }
