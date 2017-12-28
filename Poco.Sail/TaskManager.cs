@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Poco.Sail.Interface;
 
-namespace Poco.Sail.Manager
+namespace Poco.Sail
 {
     public class TaskManager : IExecutable, IDrawable
     {

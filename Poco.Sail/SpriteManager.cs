@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Poco.Sail.Manager
+namespace Poco.Sail
 {
     public class SpriteManager
     {

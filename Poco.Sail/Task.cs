@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Poco.Sail.Interface;
 
 namespace Poco.Sail
 {

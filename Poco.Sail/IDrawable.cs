@@ -1,4 +1,4 @@
-namespace Poco.Sail.Interface
+namespace Poco.Sail
 {
     public interface IDrawable
     {

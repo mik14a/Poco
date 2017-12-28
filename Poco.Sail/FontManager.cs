@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Poco.Sail.Manager
+namespace Poco.Sail
 {
     public class FontManager
     {
