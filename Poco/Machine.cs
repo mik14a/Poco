@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace Poco
 {
@@ -20,7 +19,7 @@ namespace Poco
 
         public Machine(int width, int height, int scale, string title)
             : base(width * scale, height * scale, title, GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default) {
-            float scaleFactor = 1f;
+            var scaleFactor = 1f;
             using (var graphics = Graphics.FromHwnd(WindowInfo.Handle)) {
                 scaleFactor = scale * graphics.DpiX / 96f;
             }

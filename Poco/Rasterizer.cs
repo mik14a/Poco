@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
@@ -37,7 +34,7 @@ namespace Poco
             foreach (var attribute in sprite) {
             }
 
-            foreach(var background in backgrounds) {
+            foreach (var background in backgrounds) {
                 GL.BindTexture(TextureTarget.Texture2D, background.VideoRam.Texture);
                 var size = background.VideoRam.Size;
                 for (var y = 0; y < background.Size; ++y) {
