@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net47</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Poco\Poco.csproj" />
+    <ProjectReference Include="..\..\Poco.Sail\Poco.Sail.csproj" />
+    <ProjectReference Include="..\..\Poco.Gui\Poco.Gui.csproj" />
+  </ItemGroup>
+</Project>
