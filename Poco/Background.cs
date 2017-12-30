@@ -16,10 +16,10 @@ namespace Poco
             get { return ref _Map[x + y * _Size]; }
         }
 
-        public Background(int mapSize, int videoRamSize) {
-            _Size = mapSize;
+        public Background(MachineSettings.BackgroundSettings backgroundSettings) {
+            _Size = backgroundSettings.MapSize;
             _Map = new Character[_Size * _Size];
-            _VideoRam = new VideoRam(videoRamSize);
+            _VideoRam = new VideoRam(backgroundSettings.VideoRamSize);
         }
 
         public IEnumerator<Character> GetEnumerator() {

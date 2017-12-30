@@ -8,8 +8,11 @@ namespace Poco
 {
     public class Machine : NativeWindow
     {
-        public static Machine Create(int width, int height, int scale, string title) {
-            return new Machine(width, height, scale, title);
+        public static Machine Create(string title) {
+            return new Machine(title, MachineSettings.Default);
+        }
+        public static Machine Create(string title, MachineSettings machineSettings) {
+            return new Machine(title, machineSettings);
         }
 
         public Input Input => _Input;
@@ -17,11 +20,13 @@ namespace Poco
         public Backgrounds Backgrounds => _Backgrounds;
 
 
-        public Machine(int width, int height, int scale, string title)
-            : base(width * scale, height * scale, title, GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default) {
+        protected Machine(string title, MachineSettings machineSettings)
+            : base((int)(machineSettings.Lcd.Width * machineSettings.Lcd.Scale),
+                  (int)(machineSettings.Lcd.Height * machineSettings.Lcd.Scale),
+                  title, GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default) {
             var scaleFactor = 1f;
             using (var graphics = Graphics.FromHwnd(WindowInfo.Handle)) {
-                scaleFactor = scale * graphics.DpiX / 96f;
+                scaleFactor = machineSettings.Lcd.Scale * graphics.DpiX / 96f;
             }
 
             _Context = new GraphicsContext(GraphicsMode.Default, WindowInfo, 1, 0, GraphicsContextFlags.Default);
@@ -29,8 +34,8 @@ namespace Poco
             _Context.LoadAll();
 
             _Input = new Input();
-            _Sprite = new Sprite(256, 256);
-            _Backgrounds = new Backgrounds(1, 32, 256);
+            _Backgrounds = new Backgrounds(machineSettings.Backgrounds);
+            _Sprite = new Sprite(machineSettings.Sprite);
             _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor);
         }
 
@@ -52,8 +57,8 @@ namespace Poco
 
         readonly GraphicsContext _Context;
         readonly Input _Input;
-        readonly Sprite _Sprite;
         readonly Backgrounds _Backgrounds;
+        readonly Sprite _Sprite;
         readonly Rasterizer _Rasterizer;
     }
 }

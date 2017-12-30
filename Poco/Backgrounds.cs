@@ -11,13 +11,14 @@ namespace Poco
 
         public Background this[int index] => _Background[index];
 
-        public Backgrounds(int numberOfPlane, int mapSize, int videoRamSize) {
-            _Count = numberOfPlane;
+        public Backgrounds(MachineSettings.BackgroundsSettings backgroundsSettings) {
+            _Count = backgroundsSettings.Layers;
             _Background = new Background[_Count];
             for (var i = 0; i < _Background.Length; ++i) {
-                _Background[i] = new Background(mapSize, videoRamSize);
+                _Background[i] = new Background(backgroundsSettings.Background);
             }
         }
+
 
         public IEnumerator<Background> GetEnumerator() {
             return ((IEnumerable<Background>)_Background).GetEnumerator();

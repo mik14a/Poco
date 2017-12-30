@@ -15,11 +15,12 @@ namespace Poco
             get { return ref _Attribute[index]; }
         }
 
-        public Sprite(int attributeSize, int videoRamSize) {
-            _Size = attributeSize;
-            _Attribute = new Object[attributeSize];
-            _VideoRam = new VideoRam(videoRamSize);
+        public Sprite(MachineSettings.SpriteSettings spriteSettings) {
+            _Size = spriteSettings.AttributeSize;
+            _Attribute = new Object[spriteSettings.AttributeSize];
+            _VideoRam = new VideoRam(spriteSettings.VideoRamSize);
         }
+
 
         public IEnumerator<Object> GetEnumerator() {
             return ((IEnumerable<Object>)_Attribute).GetEnumerator();
