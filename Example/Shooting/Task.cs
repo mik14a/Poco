@@ -1,22 +1,25 @@
 using System;
 using System.Linq;
 
-namespace Poco.Sail
+namespace Shooting
 {
-    public class Task : IExecutable, IDrawable
+    public class Task
     {
         protected delegate ExecuteHandler ExecuteHandler();
-        protected delegate void DrawHandler();
+        protected delegate Poco.Object DrawHandler();
 
         public void Execute() {
             OnExecute = OnExecute?.Invoke();
         }
 
-        public void Draw() {
-            OnDraw?.Invoke();
+        public Poco.Object? Draw() {
+            return OnDraw?.Invoke();
         }
 
         protected ExecuteHandler OnExecute;
         protected DrawHandler OnDraw;
+
+        internal Task _Previous = null;
+        internal Task _Next = null;
     }
 }

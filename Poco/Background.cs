@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Poco
@@ -8,9 +9,11 @@ namespace Poco
     public partial class Background : IEnumerable<Character>, IDisposable
     {
         public int Size => _Size;
+        public Character[] Map => _Map;
         public VideoRam VideoRam => _VideoRam;
 
         public int Priority { get; set; }
+
 
         public ref Character this[int x, int y] {
             get { return ref _Map[x + y * _Size]; }
@@ -20,6 +23,10 @@ namespace Poco
             _Size = backgroundSettings.MapSize;
             _Map = new Character[_Size * _Size];
             _VideoRam = new VideoRam(backgroundSettings.VideoRamSize);
+        }
+
+        public void Load(int index, Image image) {
+            _VideoRam.Load(index, image);
         }
 
         public IEnumerator<Character> GetEnumerator() {

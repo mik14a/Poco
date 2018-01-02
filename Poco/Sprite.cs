@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace Poco
@@ -8,7 +9,6 @@ namespace Poco
     public class Sprite : IEnumerable<Object>, IDisposable
     {
         public int Size => _Size;
-
         public VideoRam VideoRam => _VideoRam;
 
         public ref Object this[int index] {
@@ -21,6 +21,9 @@ namespace Poco
             _VideoRam = new VideoRam(spriteSettings.VideoRamSize);
         }
 
+        public void Load(int index, Image image) {
+            _VideoRam.Load(index, image);
+        }
 
         public IEnumerator<Object> GetEnumerator() {
             return ((IEnumerable<Object>)_Attribute).GetEnumerator();

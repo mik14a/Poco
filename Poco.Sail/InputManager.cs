@@ -3,8 +3,11 @@ using System.Linq;
 
 namespace Poco.Sail
 {
-    public class InputManager : IExecutable
+    public class InputManager
     {
+        public Input.Keys Key => _Input.Key;
+        public Input.Keys Pressed => _Pressed;
+
         public InputManager(Input input) {
             _Input = input;
         }
@@ -15,7 +18,11 @@ namespace Poco.Sail
             _Previous = key;
         }
 
-        public bool Pressed(Input.Keys keys) {
+        public bool IsKey(Input.Keys keys) {
+            return (_Input.Key & keys) != 0;
+        }
+
+        public bool IsPressed(Input.Keys keys) {
             return (_Pressed & keys) != 0;
         }
 

@@ -15,23 +15,49 @@ namespace Poco
             GL.Viewport(0, 0, _Width, _Height);
             GL.FrontFace(FrontFaceDirection.Cw);
             GL.ClearColor(Color4.Black);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
+            GL.Enable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Equal, 1f);
         }
 
         public void Rasterize(Sprite sprite, Backgrounds backgrounds) {
             GL.Clear(ClearBufferMask.ColorBufferBit);
+
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(0, _Width, _Height, 0, -1, 1);
+            GL.Ortho(0, _Width, _Height, 0, -1, 64);
             GL.Scale(_Scale, _Scale, 1f);
 
             GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
             GL.PushMatrix();
 
             GL.Enable(EnableCap.Texture2D);
 
-            foreach (var attribute in sprite) {
+            GL.BindTexture(TextureTarget.Texture2D, sprite.VideoRam.Texture);
+            foreach (var a in sprite) {
+                var index = a.Name;
+                var size = sprite.VideoRam.Size;
+                for (int y = 0; y < a.Size.Height; ++y) {
+                    for (int x = 0; x < a.Size.Width; ++x) {
+                        var uv = new RectangleF(
+                            new PointF(index % (size / 8) * 8f / size, index / (size / 8) * 8f / size),
+                            new SizeF(8f / size, 8f / size)
+                        );
+                        var xy = new RectangleF(
+                            new PointF(a.X + x * 8f, a.Y + y * 8f),
+                            new SizeF(8f, 8f)
+                        );
+                        var z = a.Priority;
+                        GL.Begin(PrimitiveType.TriangleStrip);
+                        GL.TexCoord3(uv.Left, uv.Top, 0f); GL.Vertex3(xy.Left, xy.Top, z);
+                        GL.TexCoord3(uv.Right, uv.Top, 0f); GL.Vertex3(xy.Right, xy.Top, z);
+                        GL.TexCoord3(uv.Left, uv.Bottom, 0f); GL.Vertex3(xy.Left, xy.Bottom, z);
+                        GL.TexCoord3(uv.Right, uv.Bottom, 0f); GL.Vertex3(xy.Right, xy.Bottom, z);
+                        GL.End();
+                        ++index;
+                    }
+                }
             }
 
             foreach (var background in backgrounds) {
@@ -40,6 +66,7 @@ namespace Poco
                 for (var y = 0; y < background.Size; ++y) {
                     for (var x = 0; x < background.Size; ++x) {
                         var c = background[x, y];
+                        if (c.No == 0) continue;
                         var uv = new RectangleF(
                             new PointF((c.No % (size / 8)) * 8f / size, (c.No / (size / 8)) * 8f / size),
                             new SizeF(8f / size, 8f / size)
@@ -59,6 +86,7 @@ namespace Poco
                 }
             }
             GL.Disable(EnableCap.Texture2D);
+
             GL.PopMatrix();
         }
 

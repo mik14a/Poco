@@ -11,39 +11,31 @@ namespace Poco.Sail
 {
     public class FontManager
     {
-        const string MISAKI = "Witchcraft.Core.Fonts.misaki_gothic.ttf";
+        //const string MISAKI = "Witchcraft.Core.Fonts.misaki_gothic.ttf";
 
         public unsafe FontManager(Background background) {
             _Background = background;
-            var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream(MISAKI)) {
-                using (var collection = new PrivateFontCollection()) {
-                    var unmanaged = (UnmanagedMemoryStream)stream;
-                    collection.AddMemoryFont((IntPtr)unmanaged.PositionPointer, (int)stream.Length);
-                    _Font = new Font(collection.Families[0], 8, GraphicsUnit.Pixel);
-                }
-            }
+            //var assembly = Assembly.GetExecutingAssembly();
+            //using (var stream = assembly.GetManifestResourceStream(MISAKI)) {
+            //    using (var collection = new PrivateFontCollection()) {
+            //        var unmanaged = (UnmanagedMemoryStream)stream;
+            //        collection.AddMemoryFont((IntPtr)unmanaged.PositionPointer, (int)stream.Length);
+            //        _Font = new Font(collection.Families[0], 8, GraphicsUnit.Pixel);
+            //    }
+            //}
         }
 
         public void LoadFont(int index) {
-            using (var glyph = new Bitmap(8, 8, PixelFormat.Format32bppArgb))
-            using (var fill = new SolidBrush(Color.Black))
-            using (var draw = new SolidBrush(Color.White))
-            using (var graphics = Graphics.FromImage(glyph))
-            using (var ram = _Background.VideoRam.CreateGraphics()) {
+            var font = new Font("MS Gothic", 4);
+            var glyphs = Hiragana.Concat(Katakana).Concat(Forms).ToArray();
+            using (var image = new Bitmap(glyphs.Length * 8, 8, PixelFormat.Format32bppArgb))
+            using (var brush = new SolidBrush(Color.White))
+            using (var graphics = Graphics.FromImage(image)) {
                 graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-                Hiragana.Concat(Katakana).Concat(Forms).ForEach((c, i) => {
-                    graphics.FillRectangle(fill, 0, 0, 8, 8);
-                    graphics.DrawString(c.ToString(), _Font, draw, PointF.Empty);
-                    var no = i + index;
-                    var size = _Background.VideoRam.Size / 8;
-                    var point = new Point((no % size) * 8, (no / size) * 8);
-                    ram.DrawImage(glyph, point);
-                    _Characters.Add(c, no);
-                });
-
+                glyphs.ForEach((c, i) => graphics.DrawString(c.ToString(), font, brush, i * 8, 0));
+                _Background.Load(index, image);
             }
-            _Background.VideoRam.Invalidate();
+            glyphs.ForEach((c, i) => _Characters.Add(c, i));
         }
 
         public void PutString(int x, int y, string value) {
@@ -51,7 +43,6 @@ namespace Poco.Sail
             array.ForEach((c, i) => _Background[x + i, y] = new Character() { No = c });
         }
 
-        readonly Font _Font;
         readonly Dictionary<char, int> _Characters = new Dictionary<char, int>();
         readonly Background _Background;
 

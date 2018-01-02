@@ -16,26 +16,40 @@ namespace Poco
             _Size = size;
             _Bitmap = new Bitmap(_Size, _Size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             _Texture = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, _Texture);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
             Invalidate();
         }
 
-        public Graphics CreateGraphics() {
-            return Graphics.FromImage(_Bitmap);
-        }
-
-        public void Invalidate() {
-            var bitmapData = LockBits(_Bitmap);
-            TexImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
-            UnlockBits(_Bitmap, bitmapData);
+        public void Load(int index, Image image) {
+            var srcStride = image.Width / 8;
+            var destStride = Size / 8;
+            var srcCount = srcStride * image.Height / 8;
+            using (var ram = CreateGraphics()) {
+                for (int srcIndex = 0, destIndex = index; srcIndex < srcCount; ++srcIndex, ++destIndex) {
+                    var srcRect = new Rectangle((srcIndex % srcStride) * 8, srcIndex / srcStride * 8, 8, 8);
+                    var destRect = new Rectangle((destIndex % destStride) * 8, destIndex / destStride * 8, 8, 8);
+                    ram.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);
+                }
+            }
+            Invalidate();
         }
 
         public void Dispose() {
             _Bitmap.Dispose();
             GL.DeleteTexture(_Texture);
             GC.SuppressFinalize(this);
+        }
+
+        Graphics CreateGraphics() {
+            return Graphics.FromImage(_Bitmap);
+        }
+
+        void Invalidate() {
+            GL.BindTexture(TextureTarget.Texture2D, _Texture);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            var bitmapData = LockBits(_Bitmap);
+            TexImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
+            UnlockBits(_Bitmap, bitmapData);
         }
 
         readonly int _Size;

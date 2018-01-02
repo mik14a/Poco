@@ -19,7 +19,6 @@ namespace Poco
             }
         }
 
-
         public IEnumerator<Background> GetEnumerator() {
             return ((IEnumerable<Background>)_Background).GetEnumerator();
         }
