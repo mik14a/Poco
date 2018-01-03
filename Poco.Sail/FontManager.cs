@@ -11,23 +11,11 @@ namespace Poco.Sail
 {
     public class FontManager
     {
-        //const string MISAKI = "Witchcraft.Core.Fonts.misaki_gothic.ttf";
-
         public unsafe FontManager(Background background) {
             _Background = background;
-            //var assembly = Assembly.GetExecutingAssembly();
-            //using (var stream = assembly.GetManifestResourceStream(MISAKI)) {
-            //    using (var collection = new PrivateFontCollection()) {
-            //        var unmanaged = (UnmanagedMemoryStream)stream;
-            //        collection.AddMemoryFont((IntPtr)unmanaged.PositionPointer, (int)stream.Length);
-            //        _Font = new Font(collection.Families[0], 8, GraphicsUnit.Pixel);
-            //    }
-            //}
         }
 
-        public void LoadFont(int index) {
-            var font = new Font("MS Gothic", 4);
-            var glyphs = Hiragana.Concat(Katakana).Concat(Forms).ToArray();
+        public void LoadFont(Font font, int index, char[] glyphs) {
             using (var image = new Bitmap(glyphs.Length * 8, 8, PixelFormat.Format32bppArgb))
             using (var brush = new SolidBrush(Color.White))
             using (var graphics = Graphics.FromImage(image)) {
@@ -45,9 +33,5 @@ namespace Poco.Sail
 
         readonly Dictionary<char, int> _Characters = new Dictionary<char, int>();
         readonly Background _Background;
-
-        static readonly char[] Hiragana = Enumerable.Range(0x3040, 0x60).Select(r => (char)r).ToArray();
-        static readonly char[] Katakana = Enumerable.Range(0x30A0, 0x60).Select(r => (char)r).ToArray();
-        static readonly char[] Forms = Enumerable.Range(0xFF00, 0xA0).Select(r => (char)r).ToArray();
     }
 }

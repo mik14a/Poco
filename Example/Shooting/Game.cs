@@ -19,6 +19,7 @@ namespace Shooting
             _BackgroundManager = new BackgroundManager(_Machine.Backgrounds);
             _SpriteManager = new SpriteManager(_Machine.Sprite);
             _InputManager = new InputManager(_Machine.Input);
+            Task.Initialize(_Machine.Sprite);
         }
 
         static void Main(string[] args) {
@@ -29,8 +30,8 @@ namespace Shooting
                 var elapsed = _Stopwatch.ElapsedMilliseconds;
                 if (_MillisecondsParSeconds < elapsed) {
                     _InputManager.Execute();
-                    stage.Execute(elapsed);
-                    stage.Draw();
+                    stage.Synchronize(elapsed);
+                    stage.Invalidate();
                     _Machine.Execute();
                     _Stopwatch.Restart();
                 }

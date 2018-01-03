@@ -11,17 +11,18 @@ namespace Shooting
     {
         public Stage() {
             Game.Background.Load(0, @"Assets\Font.png");
-            _Manager = new TaskManager(Game.Machine.Sprite);
-            _Manager.Add(new Player());
+            Task.Add(new Player());
+            Player.Construct();
+            Bullet.Construct();
         }
 
-        public void Execute(long elapsed) {
+        public void Synchronize(long elapsed) {
             DisplayElapsedMilliseconds(elapsed);
             DisplayKey(Game.Machine.Input.Key);
-            _Manager.Execute();
+            Task.Synchronize();
         }
-        public void Draw() {
-            _Manager.Draw();
+        public void Invalidate() {
+            Task.Invalidate();
         }
 
         static void DisplayElapsedMilliseconds(long elapsedMilliseconds) {
@@ -39,7 +40,5 @@ namespace Shooting
             }
             Game.Machine.Backgrounds[0][9, 1].No = ']';
         }
-
-        readonly TaskManager _Manager;
     }
 }

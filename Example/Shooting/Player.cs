@@ -9,36 +9,50 @@ namespace Shooting
 {
     class Player : Task
     {
-        public Player() {
+        public int X { get; set; }
+        public int Y { get; set; }
+
+        public Player() : base() {
             OnExecute = Initialize;
             OnDraw = Render;
         }
 
         ExecuteHandler Initialize() {
-            _Index = Game.Sprite.Load(@"Assets\Player.png");
-            _X = _Y = 100;
+            X = Y = 100;
             return Control;
         }
 
         ExecuteHandler Control() {
             const int delta = 2;
-            if (Game.Input.IsKey(Poco.Input.Keys.Up)) _Y -= delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Down)) _Y += delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Left)) _X -= delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Right)) _X += delta;
+            if (Game.Input.IsKey(Poco.Input.Keys.Up)) Y -= delta;
+            if (Game.Input.IsKey(Poco.Input.Keys.Down)) Y += delta;
+            if (Game.Input.IsKey(Poco.Input.Keys.Left)) X -= delta;
+            if (Game.Input.IsKey(Poco.Input.Keys.Right)) X += delta;
+            if (Game.Input.IsPressed(Poco.Input.Keys.A)) {
+                var bullet = new Bullet() { X = X + 4, Y = Y };
+                Task.Add(this, bullet);
+            }
             return Control;
         }
 
         Poco.Object Render() {
             return new Poco.Object() {
                 Name = _Index,
-                X = _X,
-                Y = _Y,
+                X = X,
+                Y = Y,
                 Size = new Size(2, 2)
             };
         }
 
-        int _Index;
-        int _X, _Y;
+        public static void Construct() {
+            _Index = Game.Sprite.Load(@"Assets\Player.png");
+        }
+
+        public static void Destruct() {
+            _Index = -1;
+        }
+
+        static int _Index = -1;
+
     }
 }

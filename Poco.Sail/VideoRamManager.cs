@@ -33,17 +33,14 @@ namespace Poco.Sail
         public int GetFreeIndex(int size) {
             var index = 0;
             while (index < _Usage.Length) {
-                if (_Usage[index]) continue;
-
-                var length = 0;
-                while (length < size) {
-                    if (_Usage[index + length]) {
-                        break;
+                if (!_Usage[index]) {
+                    var length = 0;
+                    while (length < size && !_Usage[index + length]) {
+                        ++length;
                     }
-                    ++length;
-                }
-                if (length == size) {
-                    return index;
+                    if (length == size) {
+                        return index;
+                    }
                 }
                 ++index;
             }
