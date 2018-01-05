@@ -12,6 +12,8 @@ namespace Poco
         public Character[] Map => _Map;
         public VideoRam VideoRam => _VideoRam;
 
+        public int X { get; set; }
+        public int Y { get; set; }
         public int Priority { get; set; }
 
 

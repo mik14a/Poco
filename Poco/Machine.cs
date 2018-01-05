@@ -36,14 +36,14 @@ namespace Poco
             _Input = new Input();
             _Backgrounds = new Backgrounds(machineSettings.Backgrounds);
             _Sprite = new Sprite(machineSettings.Sprite);
-            _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor);
+            _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor, _Backgrounds, _Sprite);
         }
 
         public void Execute() {
             EnsureUndisposed();
             if (Exists) {
                 _Input.Populate();
-                _Rasterizer.Rasterize(_Sprite, _Backgrounds);
+                _Rasterizer.Rasterize(_Backgrounds, _Sprite);
                 _Context.SwapBuffers();
             }
         }

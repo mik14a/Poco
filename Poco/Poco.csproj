@@ -5,7 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shaders\Background.frag" />
+    <None Remove="Shaders\Background.vert" />
+    <None Remove="Shaders\Sprite.frag" />
+    <None Remove="Shaders\Sprite.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Shaders\Background.frag" />
+    <EmbeddedResource Include="Shaders\Background.vert" />
+    <EmbeddedResource Include="Shaders\Sprite.frag" />
+    <EmbeddedResource Include="Shaders\Sprite.vert" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenTK" Version="3.0.0-pre" />
+    <PackageReference Include="System.Interactive" Version="3.1.1" />
   </ItemGroup>
 
 </Project>

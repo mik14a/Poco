@@ -10,10 +10,10 @@ namespace Shooting
     class Stage
     {
         public Stage() {
-            Game.Background.Load(0, @"Assets\Font.png");
-            Task.Add(new Player());
             Player.Construct();
             Bullet.Construct();
+            Game.Background.Load(0, @"Assets\Font.png");
+            Task.Add(new Player());
         }
 
         public void Synchronize(long elapsed) {

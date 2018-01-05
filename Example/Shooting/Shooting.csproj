@@ -10,9 +10,4 @@
     <ProjectReference Include="..\..\Poco.Sail\Poco.Sail.csproj" />
     <ProjectReference Include="..\..\Poco.Gui\Poco.Gui.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="Assets\Font.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>
