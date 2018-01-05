@@ -9,7 +9,7 @@ namespace Poco
 {
     public class Rasterizer
     {
-        public Rasterizer(int width, int height, float scale, Backgrounds backgrounds, Sprite sprite) {
+        public Rasterizer(int width, int height, float scale, Background[] background, Sprite sprite) {
             _Width = width;
             _Height = height;
             _Scale = scale;
@@ -19,14 +19,14 @@ namespace Poco
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.Enable(EnableCap.AlphaTest);
             GL.AlphaFunc(AlphaFunction.Equal, 1f);
-            _BackgroundShader = new BackgroundShader[backgrounds.Count];
+            _BackgroundShader = new BackgroundShader[background.Length];
             for (var i = 0; i < _BackgroundShader.Length; ++i) {
-                _BackgroundShader[i] = new BackgroundShader(backgrounds[i]);
+                _BackgroundShader[i] = new BackgroundShader(background[i]);
             }
             _SpriteShader = new SpriteShader(sprite);
         }
 
-        public void Rasterize(Backgrounds backgrounds, Sprite sprite) {
+        public void Rasterize() {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             GL.MatrixMode(MatrixMode.Projection);
@@ -41,10 +41,10 @@ namespace Poco
             _SpriteShader.Render(projection);
         }
 
-        int _Width;
-        int _Height;
-        float _Scale;
-        BackgroundShader[] _BackgroundShader;
-        SpriteShader _SpriteShader;
+        readonly int _Width;
+        readonly int _Height;
+        readonly float _Scale;
+        readonly BackgroundShader[] _BackgroundShader;
+        readonly SpriteShader _SpriteShader;
     }
 }

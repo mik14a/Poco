@@ -6,11 +6,11 @@ namespace Poco.Sail
 {
     public class BackgroundManager
     {
-        public BackgroundManager(Backgrounds backgrounds) {
-            _Backgrounds = backgrounds;
-            _VideoRamManager = new VideoRamManager[_Backgrounds.Count];
+        public BackgroundManager(Background[] background) {
+            _Background = background;
+            _VideoRamManager = new VideoRamManager[_Background.Length];
             for (int i = 0; i < _VideoRamManager.Length; ++i) {
-                _VideoRamManager[i] = new VideoRamManager(_Backgrounds[i].VideoRam);
+                _VideoRamManager[i] = new VideoRamManager(_Background[i].VideoRam);
             }
         }
 
@@ -21,11 +21,11 @@ namespace Poco.Sail
                 var size = width * height;
                 var index = _VideoRamManager[layer].GetFreeIndex(size);
                 _VideoRamManager[layer].Reserve(index, size);
-                _Backgrounds[layer].Load(index, image);
+                _Background[layer].Load(index, image);
             }
         }
 
-        readonly Backgrounds _Backgrounds;
+        readonly Background[] _Background;
         readonly VideoRamManager[] _VideoRamManager;
     }
 }

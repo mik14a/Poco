@@ -16,7 +16,7 @@ namespace Shooting
 
         static Game() {
             _Machine = Machine.Create("Shooting");
-            _BackgroundManager = new BackgroundManager(_Machine.Backgrounds);
+            _BackgroundManager = new BackgroundManager(_Machine.Background);
             _SpriteManager = new SpriteManager(_Machine.Sprite);
             _InputManager = new InputManager(_Machine.Input);
             Task.Initialize(_Machine.Sprite);

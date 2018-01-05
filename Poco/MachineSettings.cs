@@ -7,7 +7,7 @@ namespace Poco
     {
         public static readonly MachineSettings Default = new MachineSettings {
             Lcd = LcdSettings.Default,
-            Backgrounds = BackgroundsSettings.Default,
+            Background = BackgroundSettings.Default,
             Sprite = SpriteSettings.Default
         };
 
@@ -22,20 +22,13 @@ namespace Poco
                 Scale = 4
             };
         }
-        public struct BackgroundsSettings
-        {
-            public int Layers;
-            public BackgroundSettings Background;
-            public static BackgroundsSettings Default = new BackgroundsSettings {
-                Layers = 4,
-                Background = BackgroundSettings.Default
-            };
-        }
         public struct BackgroundSettings
         {
+            public int Backgrounds;
             public int MapSize;
             public int VideoRamSize;
             public static BackgroundSettings Default = new BackgroundSettings {
+                Backgrounds = 4,
                 MapSize = 32,
                 VideoRamSize = 256
             };
@@ -52,7 +45,7 @@ namespace Poco
         }
 
         public LcdSettings Lcd;
-        public BackgroundsSettings Backgrounds;
+        public BackgroundSettings Background;
         public SpriteSettings Sprite;
     }
 }

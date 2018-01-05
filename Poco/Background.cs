@@ -16,7 +16,6 @@ namespace Poco
         public int Y { get; set; }
         public int Priority { get; set; }
 
-
         public ref Character this[int x, int y] {
             get { return ref _Map[x + y * _Size]; }
         }
