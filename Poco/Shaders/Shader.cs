@@ -38,16 +38,15 @@ namespace Poco.Shaders
             RenderImpl(projection);
         }
 
-        protected abstract void RenderImpl(Matrix4 projection);
-
         public void Dispose() {
             GL.DeleteProgram(_Program);
             GL.DeleteShader(_VertexShader);
             GL.DeleteShader(_FragmentShader);
         }
+        protected abstract void RenderImpl(Matrix4 projection);
 
         readonly int _Program;
-        protected readonly int _VertexShader;
-        protected readonly int _FragmentShader;
+        readonly int _VertexShader;
+        readonly int _FragmentShader;
     }
 }

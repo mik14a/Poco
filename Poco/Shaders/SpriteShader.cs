@@ -106,6 +106,7 @@ namespace Poco.Shaders
             _Index.Update();
         }
 
+        const int Size = 8;
         readonly Sprite _Sprite;
         readonly int _Projection;
         readonly int _ModelView;
@@ -114,6 +115,5 @@ namespace Poco.Shaders
         ArrayBuffer<Vector2> _Vertex;
         ArrayBuffer<Vector2> _Coord;
         ElementArrayBuffer<int> _Index;
-        const int Size = 8;
     }
 }

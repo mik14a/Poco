@@ -7,7 +7,7 @@ using Poco.Shaders;
 
 namespace Poco
 {
-    public class Rasterizer
+    class Rasterizer
     {
         public Rasterizer(int width, int height, float scale, Background[] background, Sprite sprite) {
             _Width = width;

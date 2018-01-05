@@ -34,7 +34,7 @@ namespace Poco
 
             _Input = new Input();
             _Background = new Background[machineSettings.Background.Backgrounds];
-            for (int i = 0; i < _Background.Length; ++i) {
+            for (var i = 0; i < _Background.Length; ++i) {
                 _Background[i] = new Background(machineSettings.Background);
             }
             _Sprite = new Sprite(machineSettings.Sprite);

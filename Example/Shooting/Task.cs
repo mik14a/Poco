@@ -78,7 +78,7 @@ namespace Shooting
         }
 
         static Sprite _Sprite;
-        readonly static Task _Head = new Task();
+        static readonly Task _Head = new Task();
 
     }
 }

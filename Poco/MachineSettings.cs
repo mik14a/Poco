@@ -19,7 +19,7 @@ namespace Poco
             public static LcdSettings Default = new LcdSettings {
                 Width = 240,
                 Height = 160,
-                Scale = 4
+                Scale = 3
             };
         }
         public struct BackgroundSettings

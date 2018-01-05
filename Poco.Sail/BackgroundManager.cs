@@ -9,7 +9,7 @@ namespace Poco.Sail
         public BackgroundManager(Background[] background) {
             _Background = background;
             _VideoRamManager = new VideoRamManager[_Background.Length];
-            for (int i = 0; i < _VideoRamManager.Length; ++i) {
+            for (var i = 0; i < _VideoRamManager.Length; ++i) {
                 _VideoRamManager[i] = new VideoRamManager(_Background[i].VideoRam);
             }
         }

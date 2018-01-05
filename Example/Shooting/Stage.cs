@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Poco;
 
 namespace Shooting
@@ -18,7 +15,6 @@ namespace Shooting
 
         public void Synchronize(long elapsed) {
             DisplayElapsedMilliseconds(elapsed);
-            DisplayKey(Game.Machine.Input.Key);
             Task.Synchronize();
         }
         public void Invalidate() {
@@ -26,20 +22,8 @@ namespace Shooting
         }
 
         static void DisplayElapsedMilliseconds(long elapsedMilliseconds) {
-            var value = elapsedMilliseconds.ToString();
-            value.Take(3).ForEach((c, i) => Game.Machine.Background[0][i, 0].No = c);
+            var value = elapsedMilliseconds.ToString("0000");
+            value.Take(4).ForEach((c, i) => Game.Machine.Background[0][i, 0].No = c);
         }
-
-        static void DisplayKey(Input.Keys keys) {
-            var a = "\u001e\u001f\u0011\u0010\u0015\u000fAB";
-            var key = 0x80u;
-            Game.Machine.Background[0][0, 1].No = '[';
-            for (var i = 0; i < 8; ++i) {
-                Game.Machine.Background[0][i + 1, 1].No = a[i];
-                key >>= 1;
-            }
-            Game.Machine.Background[0][9, 1].No = ']';
-        }
-
     }
 }

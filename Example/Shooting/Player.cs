@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Poco;
 
 namespace Shooting
 {
@@ -24,11 +22,11 @@ namespace Shooting
 
         ExecuteHandler Control() {
             const int delta = 2;
-            if (Game.Input.IsKey(Poco.Input.Keys.Up)) Y -= delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Down)) Y += delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Left)) X -= delta;
-            if (Game.Input.IsKey(Poco.Input.Keys.Right)) X += delta;
-            if (Game.Input.IsPressed(Poco.Input.Keys.A)) {
+            if (Game.Input.IsKey(Input.Keys.Up)) Y -= delta;
+            if (Game.Input.IsKey(Input.Keys.Down)) Y += delta;
+            if (Game.Input.IsKey(Input.Keys.Left)) X -= delta;
+            if (Game.Input.IsKey(Input.Keys.Right)) X += delta;
+            if (Game.Input.IsPressed(Input.Keys.A)) {
                 var bullet = new Bullet() { X = X + 4, Y = Y };
                 Task.Add(this, bullet);
             }

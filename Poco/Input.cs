@@ -12,12 +12,13 @@ namespace Poco
             Select = 1 << 3, Start = 1 << 2,
             A = 1 << 1, B = 1 << 0
         }
-        public Keys Key => _Key;
+
+        public Keys Key { get; private set; } = 0;
 
         public void Populate() {
             var gamePad = GetGamePad(GamePad.GetState(0));
             var keyboard = GetKeyboard(Keyboard.GetState(0));
-            _Key = (Keys)gamePad | (Keys)keyboard;
+            Key = (Keys)gamePad | (Keys)keyboard;
         }
 
         static uint GetGamePad(GamePadState state) {
@@ -45,7 +46,5 @@ namespace Poco
             if (state.IsKeyDown(OpenTK.Input.Key.Enter)) key |= (uint)Keys.Start;
             return key;
         }
-
-        Keys _Key = 0;
     }
 }

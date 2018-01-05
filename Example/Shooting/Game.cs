@@ -9,16 +9,16 @@ namespace Shooting
     static class Game
     {
         public static Machine Machine => _Machine;
+        public static InputManager Input => _InputManager;
         public static BackgroundManager Background => _BackgroundManager;
         public static SpriteManager Sprite => _SpriteManager;
-        public static InputManager Input => _InputManager;
 
 
         static Game() {
             _Machine = Machine.Create("Shooting");
+            _InputManager = new InputManager(_Machine.Input);
             _BackgroundManager = new BackgroundManager(_Machine.Background);
             _SpriteManager = new SpriteManager(_Machine.Sprite);
-            _InputManager = new InputManager(_Machine.Input);
             Task.Initialize(_Machine.Sprite);
         }
 
@@ -38,11 +38,11 @@ namespace Shooting
             }
         }
 
-        readonly static Machine _Machine;
-        readonly static BackgroundManager _BackgroundManager;
-        readonly static SpriteManager _SpriteManager;
-        readonly static InputManager _InputManager;
-        readonly static Stopwatch _Stopwatch = Stopwatch.StartNew();
+        static readonly Machine _Machine;
+        static readonly InputManager _InputManager;
+        static readonly BackgroundManager _BackgroundManager;
+        static readonly SpriteManager _SpriteManager;
+        static readonly Stopwatch _Stopwatch = Stopwatch.StartNew();
         const int _MillisecondsParSeconds = 1000 / 60;
     }
 }
