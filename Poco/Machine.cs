@@ -29,7 +29,7 @@ namespace Poco
                 scaleFactor = machineSettings.Lcd.Scale * graphics.DpiX / 96f;
             }
 
-            _Context = new GraphicsContext(GraphicsMode.Default, WindowInfo, 1, 0, GraphicsContextFlags.Default);
+            _Context = new GraphicsContext(GraphicsMode.Default, WindowInfo, 3, 0, GraphicsContextFlags.Default);
             _Context.MakeCurrent(WindowInfo);
             _Context.LoadAll();
 

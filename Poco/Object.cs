@@ -6,6 +6,7 @@ namespace Poco
 {
     public struct Object
     {
+        public bool Enable;
         public int Name;
         public int Priority;
         public int X;

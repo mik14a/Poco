@@ -8,15 +8,19 @@ namespace Poco
 {
     public class VideoRam : IDisposable
     {
-        public int Texture => _Texture;
-
         public int Size => _Size;
+        public int Texture => _Texture;
+        public int Sampler => _Sampler;
 
         public VideoRam(int size) {
             _Size = size;
             _Bitmap = new Bitmap(_Size, _Size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             _Texture = GL.GenTexture();
-            Invalidate();
+            _Sampler = GL.GenSampler();
+            GL.BindTexture(TextureTarget.Texture2D, _Texture);
+            TexImage2D(_Size, _Size, IntPtr.Zero);
+            GL.SamplerParameter(_Sampler, SamplerParameterName.TextureMinFilter, (int)TextureMagFilter.Nearest);
+            GL.SamplerParameter(_Sampler, SamplerParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
         }
 
         public void Load(int index, Image image) {
@@ -45,16 +49,15 @@ namespace Poco
 
         void Invalidate() {
             GL.BindTexture(TextureTarget.Texture2D, _Texture);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
             var bitmapData = LockBits(_Bitmap);
-            TexImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
+            TexSubImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
             UnlockBits(_Bitmap, bitmapData);
         }
 
         readonly int _Size;
         readonly Bitmap _Bitmap;
         readonly int _Texture;
+        readonly int _Sampler;
 
         static BitmapData LockBits(Bitmap bitmap) {
             var rectangle = new Rectangle(Point.Empty, bitmap.Size);
@@ -69,6 +72,13 @@ namespace Poco
             var format = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
             var type = PixelType.UnsignedByte;
             GL.TexImage2D(target, 0, internalFormat, width, height, 0, format, type, pixels);
+        }
+
+        static void TexSubImage2D(int width, int height, IntPtr pixels) {
+            var target = TextureTarget.Texture2D;
+            var format = OpenTK.Graphics.OpenGL.PixelFormat.Bgra;
+            var type = PixelType.UnsignedByte;
+            GL.TexSubImage2D(target, 0, 0, 0, width, height, format, type, pixels);
         }
 
         static void UnlockBits(Bitmap bitmap, BitmapData bitmapData) {

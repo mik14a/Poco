@@ -26,6 +26,7 @@ namespace Shooting
 
         Poco.Object Render() {
             return new Poco.Object() {
+                Enable = true,
                 Name = _Index,
                 X = X,
                 Y = Y,

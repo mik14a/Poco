@@ -4,7 +4,7 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Poco
+namespace Poco.Shaders
 {
     class BackgroundShader : Shader
     {
@@ -12,27 +12,28 @@ namespace Poco
             : base("Poco.Shaders.Background.vert", "Poco.Shaders.Background.frag") {
             _Background = background;
             _Projection = GL.GetUniformLocation(Handle, "projection");
+            _ModelView = GL.GetUniformLocation(Handle, "modelview");
             _Texture = GL.GetUniformLocation(Handle, "texture");
+            _VertexArray = GL.GenVertexArray();
+            GL.BindVertexArray(_VertexArray);
             GenerateVertex();
             GenerateCoord();
             GenerateIndex();
-        }
-
-        protected override void UpdateImpl() {
-            UpdateCoord();
+            GL.BindVertexArray(0);
         }
 
         protected override void RenderImpl(Matrix4 projection) {
+            UpdateCoord();
             GL.UseProgram(Handle);
+            GL.BindVertexArray(_VertexArray);
+            GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, _Background.VideoRam.Texture);
+            GL.BindSampler(0, _Background.VideoRam.Sampler);
             GL.UniformMatrix4(_Projection, false, ref projection);
             GL.Uniform1(_Texture, 0);
-            GL.EnableVertexAttribArray(_Vertex.Handle);
-            GL.EnableVertexAttribArray(_Coord.Handle);
             GL.DrawElements(PrimitiveType.Triangles, _Index.Buffer.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
-            GL.DisableVertexAttribArray(_Vertex.Handle);
-            GL.DisableVertexAttribArray(_Coord.Handle);
             GL.UseProgram(0);
+            GL.BindVertexArray(0);
         }
 
         void GenerateVertex() {
@@ -48,24 +49,26 @@ namespace Poco
                 }
             }
             _Vertex = new ArrayBuffer<Vector2>(Handle, "vertex", buffer);
-            ArrayBuffer.GenerateStatic(_Vertex);
+            _Vertex.GenerateStatic();
         }
 
         void GenerateCoord() {
             var size = _Background.Size;
             var buffer = new Vector2[size * size * 4];
             _Coord = new ArrayBuffer<Vector2>(Handle, "coord", buffer);
-            ArrayBuffer.GenerateDynamic(_Coord);
+            _Coord.GenerateDynamic();
         }
 
-        private void UpdateCoord() {
+        void UpdateCoord() {
             var stride = _Background.Size;
             var image = _Background.VideoRam.Size;
             var size = new SizeF(8f / image, 8f / image);
             for (var y = 0; y < stride; ++y) {
                 for (var x = 0; x < stride; ++x) {
                     var c = _Background[x, y];
-                    var location = new PointF((c.No % (image / 8)) * 8f / image, (c.No / (image / 8)) * 8f / image);
+                    var u = c.No % (image / 8);
+                    var v = c.No / (image / 8);
+                    var location = new PointF(u * 8f / image, v * 8f / image);
                     var uv = new RectangleF(location, size);
                     var index = (x + y * stride) * 4;
                     _Coord[index + 0] = new Vector2(uv.Left, uv.Top);
@@ -74,7 +77,7 @@ namespace Poco
                     _Coord[index + 3] = new Vector2(uv.Right, uv.Bottom);
                 }
             }
-            ArrayBuffer.Update(_Coord);
+            _Coord.Update();
         }
 
         void GenerateIndex() {
@@ -93,12 +96,14 @@ namespace Poco
                 }
             }
             _Index = new ElementArrayBuffer<int>(buffer);
-            ElementArrayBuffer.GenerateStatic(_Index);
+            _Index.GenerateStatic();
         }
 
         readonly Background _Background;
-        int _Projection;
-        int _Texture;
+        readonly int _Projection;
+        readonly int _ModelView;
+        readonly int _Texture;
+        readonly int _VertexArray;
         ArrayBuffer<Vector2> _Vertex;
         ArrayBuffer<Vector2> _Coord;
         ElementArrayBuffer<int> _Index;
