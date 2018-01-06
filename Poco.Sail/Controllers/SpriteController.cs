@@ -2,13 +2,19 @@ using System;
 using System.Drawing;
 using System.Linq;
 
-namespace Poco.Sail
+namespace Poco.Sail.Managers
 {
-    public class SpriteManager
+    public class SpriteController : Controller
     {
-        public SpriteManager(Sprite sprite) {
+        public SpriteController(Sprite sprite) {
             _Sprite = sprite;
             _VideoRamManager = new VideoRamManager(_Sprite.VideoRam);
+        }
+
+        public override void Update() {
+            _Component.Cast<ISpriteComponent>()
+                .Select(c => c.ToObject())
+                .ForEach((o, i) => _Sprite[i] = o);
         }
 
         public int Load(string path) {
@@ -26,5 +32,9 @@ namespace Poco.Sail
         readonly Sprite _Sprite;
         readonly VideoRamManager _VideoRamManager;
 
+        public interface ISpriteComponent
+        {
+            Object ToObject();
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Poco.Sail
+namespace Poco.Sail.Managers
 {
     public class VideoRamManager
     {
