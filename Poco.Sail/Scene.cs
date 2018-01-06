@@ -6,10 +6,22 @@ namespace Poco.Sail
 {
     public abstract class Scene : Director.IScene
     {
+        public delegate UpdateHandler UpdateHandler();
+
         public Director Director => _Director;
 
         protected Scene() {
             _Entity = new LinkedList<Entity>();
+        }
+
+        public void Update() {
+            OnUpdate?.Invoke();
+            var entity = _Entity.First;
+            while (entity != null) {
+                var next = entity.Next;
+                entity.Value.Update();
+                entity = next;
+            }
         }
 
         public T Add<T>() where T : Entity {
@@ -24,17 +36,10 @@ namespace Poco.Sail
             ((IEntity)entity).Remove();
         }
 
-        public void Update() {
-            var entity = _Entity.First;
-            while (entity != null) {
-                var next = entity.Next;
-                entity.Value.Update();
-                entity = next;
-            }
-        }
-
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }
+
+        protected UpdateHandler OnUpdate;
 
         readonly LinkedList<Entity> _Entity;
         Director _Director;

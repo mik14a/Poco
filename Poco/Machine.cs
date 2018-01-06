@@ -52,8 +52,9 @@ namespace Poco
 
         public override void Dispose() {
             _Context.Dispose();
-            _Sprite.Dispose();
             Array.ForEach(_Background, background => background.Dispose());
+            _Sprite.Dispose();
+            _Rasterizer.Dispose();
             base.Dispose();
         }
 

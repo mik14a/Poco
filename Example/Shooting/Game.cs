@@ -8,11 +8,10 @@ namespace Shooting
 {
     static class Game
     {
-        public static Director Director { get; private set; }
-
         static void Main(string[] args) {
-            Director = new Director(Machine.Create("Shooting"));
-            Director.RunWithScene<Stage>();
+            var machine = Machine.Create("Shooting");
+            var director = new Director(machine);
+            director.RunWithScene<Title>();
         }
     }
 }

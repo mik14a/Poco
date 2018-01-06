@@ -6,6 +6,8 @@ namespace Poco.Sail.Components
 {
     public class InputComponent : Component, InputController.IInputComponent
     {
+        protected InputComponent() { }
+
         public bool Key(Input.Keys keys) {
             return (_Key & keys) != 0;
         }

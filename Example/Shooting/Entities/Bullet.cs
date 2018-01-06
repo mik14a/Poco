@@ -12,10 +12,12 @@ namespace Shooting.Entities
 
         public SpriteComponent Sprite { get; private set; }
 
-        protected Bullet() {
+        protected override void OnAdd() {
             OnUpdate = Initialize;
-            Scene.Director.Sprite.Add(Sprite = Attach<SpriteComponent>());
+            Sprite = Attach<SpriteComponent>();
+            Scene.Director.Sprite.Add(Sprite);
         }
+
         UpdateHandler Initialize() {
             Sprite.Name = Index;
             Sprite.Size = new Size(1, 1);
@@ -24,7 +26,7 @@ namespace Shooting.Entities
 
         UpdateHandler Control() {
             Sprite.Y -= 4;
-            return -8 < Sprite.Y ? (UpdateHandler)Control : Kill;
+            return -8 < Sprite.Y ? Control : (UpdateHandler)Kill;
         }
 
         UpdateHandler Kill() {

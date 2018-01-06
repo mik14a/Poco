@@ -42,6 +42,7 @@ namespace Poco.Shaders
             GL.DeleteProgram(_Program);
             GL.DeleteShader(_VertexShader);
             GL.DeleteShader(_FragmentShader);
+            GC.SuppressFinalize(this);
         }
         protected abstract void RenderImpl(Matrix4 projection);
 

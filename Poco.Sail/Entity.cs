@@ -6,7 +6,7 @@ namespace Poco.Sail
 {
     public abstract class Entity : Scene.IEntity
     {
-        protected delegate UpdateHandler UpdateHandler();
+        public delegate UpdateHandler UpdateHandler();
 
         public Scene Scene => _Scene;
 

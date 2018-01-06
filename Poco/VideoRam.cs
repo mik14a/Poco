@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Poco
 {
-    public class VideoRam : IDisposable
+    public sealed class VideoRam : IDisposable
     {
         public int Size => _Size;
         public int Texture => _Texture;

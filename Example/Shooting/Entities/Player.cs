@@ -13,10 +13,12 @@ namespace Shooting.Entities
         public SpriteComponent Sprite { get; private set; }
         public InputComponent Input { get; private set; }
 
-        protected Player() {
+        protected override void OnAdd() {
             OnUpdate = Initialize;
-            Scene.Director.Sprite.Add(Sprite = Attach<SpriteComponent>());
-            Scene.Director.Input.Add(Input = Attach<InputComponent>());
+            Sprite = Attach<SpriteComponent>();
+            Input = Attach<InputComponent>();
+            Scene.Director.Sprite.Add(Sprite);
+            Scene.Director.Input.Add(Input);
         }
 
         UpdateHandler Initialize() {

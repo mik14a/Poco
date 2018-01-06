@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using Poco.Sail.Managers;
 
@@ -17,28 +19,51 @@ namespace Poco.Sail.Controllers
 
         public override void Update() {
             _Component.Cast<IBackgroundComponent>()
-                .Where(c => !c.IsDirty)
-                .ForEach(c => {
-                    var location = c.Rectangle.Location;
-                    var size = c.Rectangle.Size;
+                .Where(bg => bg.IsDirty)
+                .ForEach(bg => {
+                    var location = bg.Rectangle.Location;
+                    var size = bg.Rectangle.Size;
                     for (var y = 0; y < size.Height; ++y) {
                         for (var x = 0; x < size.Width; ++x) {
-                            var index = x + y * size.Width;
-                            _Background[c.Layer][location.X + x, location.Y + y] = c.Map[index];
+                            _Background[bg.Layer][location.X + x, location.Y + y] = bg[x, y];
                         }
                     }
+                    bg.IsDirty = false;
                 });
         }
 
         public void Load(int layer, string path) {
+            var videoRamManager = _VideoRamManager[layer];
+            var background = _Background[layer];
             using (var image = Image.FromFile(path)) {
                 var width = image.Width / 8;
                 var height = image.Height / 8;
                 var size = width * height;
-                var index = _VideoRamManager[layer].GetFreeIndex(size);
-                _VideoRamManager[layer].Reserve(index, size);
-                _Background[layer].Load(index, image);
+                var index = videoRamManager.GetFreeIndex(size);
+                videoRamManager.Reserve(index, size);
+                background.Load(index, image);
             }
+        }
+
+        public void FromGZippedBase64String(int layer, int width, int height, string value) {
+            var background = _Background[layer];
+            using (var memory = new MemoryStream(Convert.FromBase64String(value)))
+            using (var stream = new GZipStream(memory, CompressionMode.Decompress)) {
+                var buffer = new byte[width * height * 4];
+                stream.Read(buffer, 0, buffer.Length);
+                var map = buffer.Buffer(4).Select(b => BitConverter.ToInt32(b.ToArray(), 0)).ToArray();
+                for (var y = 0; y < 20; ++y) {
+                    for (var x = 0; x < 30; ++x) {
+                        var c = map[x + y * 30];
+                        if (c == 0) continue;
+                        background[x, y].No = c - 1;
+                    }
+                }
+            }
+        }
+
+        public void Reset(int layer) {
+            _VideoRamManager[layer].Reset();
         }
 
         readonly Background[] _Background;
@@ -46,10 +71,10 @@ namespace Poco.Sail.Controllers
 
         public interface IBackgroundComponent
         {
-            bool IsDirty { get; }
+            bool IsDirty { get; set; }
             int Layer { get; }
             Rectangle Rectangle { get; }
-            Character[] Map { get; }
+            ref Character this[int x, int y] { get; }
         }
     }
 }

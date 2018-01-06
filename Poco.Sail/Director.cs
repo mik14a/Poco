@@ -14,6 +14,8 @@ namespace Poco.Sail
         public BackgroundController Background => _BackgroundController;
         public SpriteController Sprite => _SpriteController;
 
+        public long Elapsed { get; private set; }
+
         public Director(Machine machine) {
             _Machine = machine;
             _InputController = new InputController(_Machine.Input);
@@ -31,15 +33,15 @@ namespace Poco.Sail
             _Machine.Visible = true;
             while (_Machine.Exists) {
                 _Machine.ProcessEvents();
-                var elapsed = _Stopwatch.ElapsedMilliseconds;
-                if (_MillisecondsParSeconds < elapsed) {
+                Elapsed = _Stopwatch.ElapsedMilliseconds;
+                if (_MillisecondsParSeconds < Elapsed) {
+                    _Stopwatch.Restart();
                     var scene = _Scene.Peek();
                     scene.Update();
                     _InputController.Update();
                     _BackgroundController.Update();
                     _SpriteController.Update();
                     _Machine.Execute();
-                    _Stopwatch.Restart();
                 }
             }
         }

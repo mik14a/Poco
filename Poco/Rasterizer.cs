@@ -7,7 +7,7 @@ using Poco.Shaders;
 
 namespace Poco
 {
-    class Rasterizer
+    sealed class Rasterizer : IDisposable
     {
         public Rasterizer(int width, int height, float scale, Background[] background, Sprite sprite) {
             _Width = width;
@@ -39,6 +39,12 @@ namespace Poco
                 shader.Render(projection);
             }
             _SpriteShader.Render(projection);
+        }
+
+        public void Dispose() {
+            Array.ForEach(_BackgroundShader, shader=>shader.Dispose());
+            _SpriteShader.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         readonly int _Width;

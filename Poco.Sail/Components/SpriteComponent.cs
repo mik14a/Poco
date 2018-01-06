@@ -7,11 +7,13 @@ namespace Poco.Sail.Components
 {
     public class SpriteComponent : Component, SpriteController.ISpriteComponent
     {
-        public int Name;
-        public int Priority;
-        public int X;
-        public int Y;
-        public Size Size;
+        public int Name { get; set; }
+        public int Priority { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public Size Size { get; set; }
+
+        protected SpriteComponent() { }
 
         Object SpriteController.ISpriteComponent.ToObject() {
             return new Object {

@@ -13,8 +13,8 @@ namespace Poco.Sail.Managers
 
         public override void Update() {
             _Component.Cast<ISpriteComponent>()
-                .Select(c => c.ToObject())
-                .ForEach((o, i) => _Sprite[i] = o);
+                .Select(spr => spr.ToObject())
+                .ForEach((obj, i) => _Sprite[i] = obj);
         }
 
         public int Load(string path) {

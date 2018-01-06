@@ -28,6 +28,10 @@ namespace Poco.Sail.Managers
             _Map.Remove(index);
         }
 
+        public void Reset() {
+            _Map.Clear();
+            _Usage.SetAll(false);
+        }
 
         public int GetFreeIndex(int size) {
             var index = 0;

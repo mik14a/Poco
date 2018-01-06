@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Poco
 {
-    public partial class Background : IEnumerable<Character>, IDisposable
+    public sealed class Background : IEnumerable<Character>, IDisposable
     {
         public int Size => _Size;
         public Character[] Map => _Map;
@@ -15,6 +15,10 @@ namespace Poco
         public int X { get; set; }
         public int Y { get; set; }
         public int Priority { get; set; }
+
+        public ref Character this[int index] {
+            get { return ref _Map[index]; }
+        }
 
         public ref Character this[int x, int y] {
             get { return ref _Map[x + y * _Size]; }
@@ -28,6 +32,10 @@ namespace Poco
 
         public void Load(int index, Image image) {
             _VideoRam.Load(index, image);
+        }
+
+        public void Reset() {
+            Array.Clear(_Map, 0, _Map.Length);
         }
 
         public IEnumerator<Character> GetEnumerator() {

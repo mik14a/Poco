@@ -4,7 +4,7 @@ using OpenTK.Input;
 
 namespace Poco
 {
-    public class Input
+    public sealed class Input
     {
         public enum Keys : uint
         {
