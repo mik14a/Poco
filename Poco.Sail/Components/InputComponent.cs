@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Poco.Sail.Controllers;
+using Poco.Controllers;
 
-namespace Poco.Sail.Components
+namespace Poco.Components
 {
     public class InputComponent : Component, InputController.IInputComponent
     {

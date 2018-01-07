@@ -1,16 +1,14 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using Poco.Sail.Controllers;
+using Poco.Controllers;
 
-namespace Poco.Sail.Components
+namespace Poco.Components
 {
     public class BackgroundComponent : Component, BackgroundController.IBackgroundComponent
     {
         public int Layer {
-            get {
-                return _Layer;
-            }
+            get { return _Layer; }
             set {
                 if (_Layer == value) return;
                 _Layer = value;
@@ -19,9 +17,7 @@ namespace Poco.Sail.Components
         }
 
         public Rectangle Rectangle {
-            get {
-                return _Rectangle;
-            }
+            get { return _Rectangle; }
             set {
                 if (_Rectangle == value) return;
                 _Rectangle = value;

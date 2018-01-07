@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Poco.Sail.Controllers
+namespace Poco.Controllers
 {
     public class InputController : Controller
     {

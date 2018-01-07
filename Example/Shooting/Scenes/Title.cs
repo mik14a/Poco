@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Poco;
-using Poco.Sail;
 
 namespace Shooting.Scenes
 {

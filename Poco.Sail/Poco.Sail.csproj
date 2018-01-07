@@ -4,6 +4,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Poco</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Interactive" Version="3.1.1" />

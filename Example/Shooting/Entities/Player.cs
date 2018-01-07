@@ -1,8 +1,8 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using Poco.Sail;
-using Poco.Sail.Components;
+using Poco;
+using Poco.Components;
 
 namespace Shooting.Entities
 {

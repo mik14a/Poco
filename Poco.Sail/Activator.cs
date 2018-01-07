@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Poco.Sail
+namespace Poco
 {
     static class Activator<T>
     {

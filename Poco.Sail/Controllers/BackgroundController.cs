@@ -3,9 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Poco.Sail.Managers;
+using Poco.Managers;
 
-namespace Poco.Sail.Controllers
+namespace Poco.Controllers
 {
     public class BackgroundController : Controller
     {

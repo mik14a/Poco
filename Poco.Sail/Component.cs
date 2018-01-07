@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Poco.Sail
+namespace Poco
 {
     public abstract class Component : Entity.IComponent
     {

@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 
-namespace Poco.Sail.Managers
+namespace Poco.Managers
 {
     public class SpriteController : Controller
     {

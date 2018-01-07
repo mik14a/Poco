@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Poco;
-using Poco.Sail;
 using Shooting.Scenes;
 
 namespace Shooting

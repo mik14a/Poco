@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Linq;
 
-namespace Poco.Sail.Managers
+namespace Poco.Managers
 {
     public class FontManager
     {

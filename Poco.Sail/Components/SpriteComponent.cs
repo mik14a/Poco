@@ -1,9 +1,9 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using Poco.Sail.Managers;
+using Poco.Managers;
 
-namespace Poco.Sail.Components
+namespace Poco.Components
 {
     public class SpriteComponent : Component, SpriteController.ISpriteComponent
     {

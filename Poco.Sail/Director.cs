@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Poco.Sail.Controllers;
-using Poco.Sail.Managers;
+using Poco.Controllers;
+using Poco.Managers;
 
-namespace Poco.Sail
+namespace Poco
 {
     public class Director
     {
