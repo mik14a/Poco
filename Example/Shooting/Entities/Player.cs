@@ -21,6 +21,11 @@ namespace Shooting.Entities
             Scene.Director.Input.Add(Input);
         }
 
+        protected override void OnRemove() {
+            Scene.Director.Sprite.Remove(Sprite);
+            Scene.Director.Input.Remove(Input);
+        }
+
         UpdateHandler Initialize() {
             Sprite.Name = Index;
             Sprite.X = Sprite.Y = 100;

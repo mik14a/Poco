@@ -33,15 +33,15 @@ namespace Poco.Sail
             _Machine.Visible = true;
             while (_Machine.Exists) {
                 _Machine.ProcessEvents();
-                Elapsed = _Stopwatch.ElapsedMilliseconds;
-                if (_MillisecondsParSeconds < Elapsed) {
+                Elapsed = _Stopwatch.ElapsedTicks;
+                if (_FrequenciesParFrame < Elapsed) {
                     _Stopwatch.Restart();
+                    _InputController.Update();
                     var scene = _Scene.Peek();
                     scene.Update();
-                    _InputController.Update();
                     _BackgroundController.Update();
                     _SpriteController.Update();
-                    _Machine.Execute();
+                    _Machine.Update();
                 }
             }
         }
@@ -63,8 +63,8 @@ namespace Poco.Sail
         readonly BackgroundController _BackgroundController;
         readonly SpriteController _SpriteController;
         readonly Stopwatch _Stopwatch = Stopwatch.StartNew();
-        const int _MillisecondsParSeconds = 1000 / 60;
         readonly Stack<Scene> _Scene;
+        readonly long _FrequenciesParFrame = Stopwatch.Frequency / 60;
 
         internal interface IScene
         {

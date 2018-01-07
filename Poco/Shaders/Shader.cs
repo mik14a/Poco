@@ -22,10 +22,10 @@ namespace Poco.Shaders
             Debug.WriteLine(GL.GetProgramInfoLog(_Program));
         }
 
-        public int CreateShader(ShaderType shaderType, string path) {
+        public int CreateShader(ShaderType shaderType, string name) {
             var shader = GL.CreateShader(shaderType);
             var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream(path))
+            using (var stream = assembly.GetManifestResourceStream(name))
             using (var reader = new StreamReader(stream)) {
                 GL.ShaderSource(shader, reader.ReadToEnd());
             }

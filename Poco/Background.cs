@@ -24,10 +24,10 @@ namespace Poco
             get { return ref _Map[x + y * _Size]; }
         }
 
-        public Background(MachineSettings.BackgroundSettings backgroundSettings) {
-            _Size = backgroundSettings.MapSize;
+        public Background(Settings.Backgrounds backgrounds) {
+            _Size = backgrounds.MapSize;
             _Map = new Character[_Size * _Size];
-            _VideoRam = new VideoRam(backgroundSettings.VideoRamSize);
+            _VideoRam = new VideoRam(backgrounds.VideoRamSize);
         }
 
         public void Load(int index, Image image) {

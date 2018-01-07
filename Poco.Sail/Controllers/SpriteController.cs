@@ -12,6 +12,7 @@ namespace Poco.Sail.Managers
         }
 
         public override void Update() {
+            _Sprite.Reset();
             _Component.Cast<ISpriteComponent>()
                 .Select(spr => spr.ToObject())
                 .ForEach((obj, i) => _Sprite[i] = obj);

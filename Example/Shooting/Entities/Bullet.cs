@@ -18,6 +18,10 @@ namespace Shooting.Entities
             Scene.Director.Sprite.Add(Sprite);
         }
 
+        protected override void OnRemove() {
+            Scene.Director.Sprite.Remove(Sprite);
+        }
+
         UpdateHandler Initialize() {
             Sprite.Name = Index;
             Sprite.Size = new Size(1, 1);
