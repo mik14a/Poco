@@ -8,9 +8,11 @@ namespace Poco
         protected Component() {
         }
 
-        protected virtual void OnAttach() { }
+        protected virtual void OnAttach() {
+        }
 
-        protected virtual void OnDetach() { }
+        protected virtual void OnDetach() {
+        }
 
         Entity _Entity;
 

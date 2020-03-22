@@ -8,51 +8,53 @@ namespace Poco
 {
     public sealed class Background : IEnumerable<Character>, IDisposable
     {
-        public int Size => _Size;
-        public Character[] Map => _Map;
-        public VideoRam VideoRam => _VideoRam;
+        public int Size { get; }
+
+        public Character[] Map { get; }
+
+        public VideoRam VideoRam { get; }
 
         public int X { get; set; }
+
         public int Y { get; set; }
+
         public int Priority { get; set; }
 
-        public ref Character this[int index] {
-            get { return ref _Map[index]; }
+        public ref Character this[int index]
+        {
+            get { return ref Map[index]; }
         }
 
-        public ref Character this[int x, int y] {
-            get { return ref _Map[x + y * _Size]; }
+        public ref Character this[int x, int y]
+        {
+            get { return ref Map[x + y * Size]; }
         }
 
         public Background(Settings.Backgrounds backgrounds) {
-            _Size = backgrounds.MapSize;
-            _Map = new Character[_Size * _Size];
-            _VideoRam = new VideoRam(backgrounds.VideoRamSize);
+            Size = backgrounds.MapSize;
+            Map = new Character[Size * Size];
+            VideoRam = new VideoRam(backgrounds.VideoRamSize);
         }
 
         public void Load(int index, Image image) {
-            _VideoRam.Load(index, image);
+            VideoRam.Load(index, image);
         }
 
         public void Reset() {
-            Array.Clear(_Map, 0, _Map.Length);
+            Array.Clear(Map, 0, Map.Length);
         }
 
         public IEnumerator<Character> GetEnumerator() {
-            return ((IEnumerable<Character>)_Map).GetEnumerator();
+            return ((IEnumerable<Character>)Map).GetEnumerator();
         }
 
         public void Dispose() {
-            _VideoRam.Dispose();
+            VideoRam.Dispose();
             GC.SuppressFinalize(this);
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return _Map.GetEnumerator();
+            return Map.GetEnumerator();
         }
-
-        readonly int _Size;
-        readonly Character[] _Map;
-        readonly VideoRam _VideoRam;
     }
 }

@@ -7,46 +7,49 @@ namespace Poco.Components
 {
     public class BackgroundComponent : Component, BackgroundController.IBackgroundComponent
     {
+        public bool IsDirty { get; set; } = false;
+
         public int Layer {
             get { return _Layer; }
-            set {
-                if (_Layer == value) return;
+            set
+            {
+                if (_Layer == value)
+                    return;
                 _Layer = value;
-                _IsDirty = true;
+                IsDirty = true;
             }
         }
 
         public Rectangle Rectangle {
             get { return _Rectangle; }
-            set {
-                if (_Rectangle == value) return;
+            set
+            {
+                if (_Rectangle == value)
+                    return;
                 _Rectangle = value;
                 _Map = new Character[_Rectangle.Width * _Rectangle.Height];
-                _IsDirty = true;
+                IsDirty = true;
             }
         }
 
+
         public ref Character this[int x, int y] {
-            get {
+            get
+            {
                 var index = x + y * _Rectangle.Width;
                 return ref _Map[index];
             }
         }
 
-        protected BackgroundComponent() { }
-
-        public void MakeRenderDirty() {
-            _IsDirty = true;
+        protected BackgroundComponent() {
         }
 
-        bool _IsDirty;
+        public void MakeRenderDirty() {
+            IsDirty = true;
+        }
+
         int _Layer;
         Rectangle _Rectangle;
         Character[] _Map;
-
-        bool BackgroundController.IBackgroundComponent.IsDirty {
-            get { return _IsDirty; }
-            set { _IsDirty = value; }
-        }
     }
 }

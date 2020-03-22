@@ -1,12 +1,12 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using OpenTK;
-using OpenTK.Graphics;
+//using OpenTK;
+//using OpenTK.Graphics;
 
 namespace Poco
 {
-    public class Machine : NativeWindow
+    public class Machine : OpenTK.NativeWindow
     {
         public static Machine Create(string title) {
             return new Machine(title, Settings.Default);
@@ -15,37 +15,42 @@ namespace Poco
             return new Machine(title, settings);
         }
 
-        public Input Input => _Input;
-        public Background[] Background => _Background;
-        public Sprite Sprite => _Sprite;
+        public Input Input { get; }
+
+        public Background[] Background { get; }
+
+        public Sprite Sprite { get; }
 
         protected Machine(string title, Settings settings)
             : base((int)(settings.Screen.Width * settings.Screen.Scale),
-                  (int)(settings.Screen.Height * settings.Screen.Scale),
-                  title, GameWindowFlags.FixedWindow, GraphicsMode.Default, DisplayDevice.Default) {
+                   (int)(settings.Screen.Height * settings.Screen.Scale),
+                   title,
+                   OpenTK.GameWindowFlags.FixedWindow,
+                   OpenTK.Graphics.GraphicsMode.Default,
+                   OpenTK.DisplayDevice.Default) {
             var scaleFactor = 1f;
             using (var graphics = Graphics.FromHwnd(WindowInfo.Handle)) {
                 scaleFactor = settings.Screen.Scale * graphics.DpiX / 96f;
             }
 
-            _Context = new GraphicsContext(GraphicsMode.Default, WindowInfo, 3, 0, GraphicsContextFlags.Default);
+            _Context = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, WindowInfo, 3, 0, OpenTK.Graphics.GraphicsContextFlags.Default);
             _Context.SwapInterval = -1;
             _Context.MakeCurrent(WindowInfo);
             _Context.LoadAll();
 
-            _Input = new Input();
-            _Background = new Background[settings.Background.Layer];
-            for (var i = 0; i < _Background.Length; ++i) {
-                _Background[i] = new Background(settings.Background);
+            Input = new Input();
+            Background = new Background[settings.Background.Layer];
+            for (var i = 0; i < Background.Length; ++i) {
+                Background[i] = new Background(settings.Background);
             }
-            _Sprite = new Sprite(settings.Sprite);
-            _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor, _Background, _Sprite);
+            Sprite = new Sprite(settings.Sprite);
+            _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor, Background, Sprite);
         }
 
         public void Update() {
             EnsureUndisposed();
             if (Exists) {
-                _Input.Populate();
+                Input.Populate();
                 _Rasterizer.Rasterize();
                 _Context.SwapBuffers();
             }
@@ -53,16 +58,13 @@ namespace Poco
 
         public override void Dispose() {
             _Context.Dispose();
-            Array.ForEach(_Background, background => background.Dispose());
-            _Sprite.Dispose();
+            Array.ForEach(Background, background => background.Dispose());
+            Sprite.Dispose();
             _Rasterizer.Dispose();
             base.Dispose();
         }
 
-        readonly GraphicsContext _Context;
-        readonly Input _Input;
-        readonly Background[] _Background;
-        readonly Sprite _Sprite;
+        readonly OpenTK.Graphics.GraphicsContext _Context;
         readonly Rasterizer _Rasterizer;
     }
 }

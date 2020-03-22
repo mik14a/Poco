@@ -42,7 +42,7 @@ namespace Poco
         }
 
         public void Dispose() {
-            Array.ForEach(_BackgroundShader, shader=>shader.Dispose());
+            Array.ForEach(_BackgroundShader, shader => shader.Dispose());
             _SpriteShader.Dispose();
             GC.SuppressFinalize(this);
         }

@@ -10,25 +10,25 @@ namespace Poco.Shaders
 {
     abstract class Shader : IDisposable
     {
-        public int Handle => _Program;
+        public int Handle { get; }
 
         public Shader(string vertexShaderPath, string fragmentShaderPath) {
-            _Program = GL.CreateProgram();
+            Handle = GL.CreateProgram();
             _VertexShader = CreateShader(ShaderType.VertexShader, vertexShaderPath);
             _FragmentShader = CreateShader(ShaderType.FragmentShader, fragmentShaderPath);
-            GL.AttachShader(_Program, _VertexShader);
-            GL.AttachShader(_Program, _FragmentShader);
-            GL.LinkProgram(_Program);
-            Debug.WriteLine(GL.GetProgramInfoLog(_Program));
+            GL.AttachShader(Handle, _VertexShader);
+            GL.AttachShader(Handle, _FragmentShader);
+            GL.LinkProgram(Handle);
+            Debug.WriteLine(GL.GetProgramInfoLog(Handle));
         }
 
         public int CreateShader(ShaderType shaderType, string name) {
             var shader = GL.CreateShader(shaderType);
             var assembly = Assembly.GetExecutingAssembly();
             using (var stream = assembly.GetManifestResourceStream(name))
-            using (var reader = new StreamReader(stream)) {
-                GL.ShaderSource(shader, reader.ReadToEnd());
-            }
+                using (var reader = new StreamReader(stream)) {
+                    GL.ShaderSource(shader, reader.ReadToEnd());
+                }
             GL.CompileShader(shader);
             Debug.WriteLine(GL.GetShaderInfoLog(shader));
             return shader;
@@ -39,14 +39,14 @@ namespace Poco.Shaders
         }
 
         public void Dispose() {
-            GL.DeleteProgram(_Program);
+            GL.DeleteProgram(Handle);
             GL.DeleteShader(_VertexShader);
             GL.DeleteShader(_FragmentShader);
             GC.SuppressFinalize(this);
         }
+
         protected abstract void RenderImpl(Matrix4 projection);
 
-        readonly int _Program;
         readonly int _VertexShader;
         readonly int _FragmentShader;
     }

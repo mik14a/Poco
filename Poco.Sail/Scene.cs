@@ -8,7 +8,7 @@ namespace Poco
     {
         public delegate UpdateHandler UpdateHandler();
 
-        public Director Director => _Director;
+        public Director Director { get; private set; }
 
         protected Scene() {
             _Entity = new LinkedList<Entity>();
@@ -24,7 +24,8 @@ namespace Poco
             }
         }
 
-        public T Add<T>() where T : Entity {
+        public T Add<T>()
+            where T : Entity {
             var entity = Activator<T>.CreateInstance();
             _Entity.AddLast(entity);
             ((IEntity)entity).Add(this);
@@ -36,28 +37,30 @@ namespace Poco
             ((IEntity)entity).Remove();
         }
 
-        protected virtual void OnEnter() { }
-        protected virtual void OnExit() { }
+        protected virtual void OnEnter() {
+        }
+        protected virtual void OnExit() {
+        }
 
         protected UpdateHandler OnUpdate;
 
         readonly LinkedList<Entity> _Entity;
-        Director _Director;
 
         void Director.IScene.Enter(Director director) {
-            _Director = director;
+            Director = director;
             OnEnter();
         }
 
         void Director.IScene.Exit() {
             OnExit();
             _Entity.Clear();
-            _Director = null;
+            Director = null;
         }
 
         internal interface IEntity
         {
             void Add(Scene scene);
+
             void Remove();
         }
     }

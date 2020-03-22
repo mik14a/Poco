@@ -8,7 +8,7 @@ namespace Poco
     {
         public delegate UpdateHandler UpdateHandler();
 
-        public Scene Scene => _Scene;
+        public Scene Scene { get; private set; }
 
         protected Entity() {
             _Component = new LinkedList<Component>();
@@ -18,7 +18,8 @@ namespace Poco
             OnUpdate = OnUpdate?.Invoke();
         }
 
-        public T Attach<T>() where T : Component {
+        public T Attach<T>()
+            where T : Component {
             var component = Activator<T>.CreateInstance();
             _Component.AddLast(component);
             ((IComponent)component).Attach(this);
@@ -30,28 +31,30 @@ namespace Poco
             _Component.Remove(component);
         }
 
-        protected virtual void OnAdd() { }
-        protected virtual void OnRemove() { }
+        protected virtual void OnAdd() {
+        }
+        protected virtual void OnRemove() {
+        }
 
         protected UpdateHandler OnUpdate;
 
         readonly LinkedList<Component> _Component;
-        Scene _Scene;
 
         void Scene.IEntity.Add(Scene scene) {
-            _Scene = scene;
+            Scene = scene;
             OnAdd();
         }
 
         void Scene.IEntity.Remove() {
             OnRemove();
             _Component.Clear();
-            _Scene = null;
+            Scene = null;
         }
 
         internal interface IComponent
         {
             void Attach(Entity entity);
+
             void Detach();
         }
     }

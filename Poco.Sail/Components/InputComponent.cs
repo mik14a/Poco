@@ -6,7 +6,8 @@ namespace Poco.Components
 {
     public class InputComponent : Component, InputController.IInputComponent
     {
-        protected InputComponent() { }
+        protected InputComponent() {
+        }
 
         public bool Key(Input.Keys keys) {
             return (_Key & keys) != 0;

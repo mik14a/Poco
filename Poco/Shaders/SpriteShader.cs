@@ -31,7 +31,8 @@ namespace Poco.Shaders
             GL.UniformMatrix4(_Projection, false, ref projection);
             GL.Uniform1(_Texture, 0);
             foreach (var o in _Sprite) {
-                if (!o.Enable) continue;
+                if (!o.Enable)
+                    continue;
                 UpdateCoord(o);
                 UpdateIndex(o);
                 var modelView = Matrix4.CreateTranslation(o.X, o.Y, o.Priority);

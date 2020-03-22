@@ -11,6 +11,7 @@ namespace Shooting.Entities
         public static int Index { get; set; } = -1;
 
         public SpriteComponent Sprite { get; private set; }
+
         public InputComponent Input { get; private set; }
 
         protected override void OnAdd() {
@@ -35,10 +36,14 @@ namespace Shooting.Entities
 
         UpdateHandler Control() {
             const int delta = 2;
-            if (Input.Key(Poco.Input.Keys.Up)) Sprite.Y -= delta;
-            if (Input.Key(Poco.Input.Keys.Down)) Sprite.Y += delta;
-            if (Input.Key(Poco.Input.Keys.Left)) Sprite.X -= delta;
-            if (Input.Key(Poco.Input.Keys.Right)) Sprite.X += delta;
+            if (Input.Key(Poco.Input.Keys.Up))
+                Sprite.Y -= delta;
+            if (Input.Key(Poco.Input.Keys.Down))
+                Sprite.Y += delta;
+            if (Input.Key(Poco.Input.Keys.Left))
+                Sprite.X -= delta;
+            if (Input.Key(Poco.Input.Keys.Right))
+                Sprite.X += delta;
             if (Input.Pressed(Poco.Input.Keys.A)) {
                 var bullet = Scene.Add<Bullet>();
                 bullet.Sprite.X = Sprite.X + 4;

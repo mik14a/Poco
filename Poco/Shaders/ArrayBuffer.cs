@@ -7,37 +7,36 @@ namespace Poco.Shaders
 {
     class ArrayBuffer
     {
-        public int Program => _Program;
-        public string Name => _Name;
-        public int Handle => _Handle;
-        public int BufferObject => _BufferObject;
+        public int Program { get; }
+
+        public string Name { get; }
+
+        public int Handle { get; }
+
+        public int BufferObject { get; }
 
         public ArrayBuffer(int program, string name) {
-            _Program = program;
-            _Name = name;
-            _Handle = GL.GetAttribLocation(_Program, _Name);
-            _BufferObject = GL.GenBuffer();
+            Program = program;
+            Name = name;
+            Handle = GL.GetAttribLocation(Program, Name);
+            BufferObject = GL.GenBuffer();
         }
-
-        readonly int _Program;
-        readonly string _Name;
-        readonly int _Handle;
-        readonly int _BufferObject;
     }
 
-    class ArrayBuffer<T> : ArrayBuffer where T : struct
+    class ArrayBuffer<T> : ArrayBuffer
+        where T : struct
     {
-        public T[] Buffer => _Buffer;
+        public T[] Buffer { get; }
 
-        public ref T this[int index] {
-            get { return ref _Buffer[index]; }
+        public ref T this[int index]
+        {
+            get { return ref Buffer[index]; }
         }
 
-        public ArrayBuffer(int program, string name, T[] buffer) : base(program, name) {
-            _Buffer = buffer;
+        public ArrayBuffer(int program, string name, T[] buffer)
+            : base(program, name) {
+            Buffer = buffer;
         }
-
-        readonly T[] _Buffer;
     }
 
     static class ArrayBufferExtensions

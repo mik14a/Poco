@@ -6,28 +6,26 @@ namespace Poco.Shaders
 {
     class ElementArrayBuffer
     {
-        public int BufferObject => _BufferObject;
+        public int BufferObject { get; }
 
         public ElementArrayBuffer() {
-            _BufferObject = GL.GenBuffer();
+            BufferObject = GL.GenBuffer();
         }
-
-        readonly int _BufferObject;
     }
 
-    class ElementArrayBuffer<T> : ElementArrayBuffer where T : struct
+    class ElementArrayBuffer<T> : ElementArrayBuffer
+        where T : struct
     {
-        public T[] Buffer => _Buffer;
+        public T[] Buffer { get; }
 
-        public ref T this[int index] {
-            get { return ref _Buffer[index]; }
+        public ref T this[int index]
+        {
+            get { return ref Buffer[index]; }
         }
 
         public ElementArrayBuffer(T[] buffer) {
-            _Buffer = buffer;
+            Buffer = buffer;
         }
-
-        readonly T[] _Buffer;
     }
 
     static class ElementArrayBufferExtensions

@@ -21,11 +21,12 @@ namespace Poco.Controllers
             _Component.Cast<IBackgroundComponent>()
                 .Where(bg => bg.IsDirty)
                 .ForEach(bg => {
+                    var layer = bg.Layer;
                     var location = bg.Rectangle.Location;
                     var size = bg.Rectangle.Size;
                     for (var y = 0; y < size.Height; ++y) {
                         for (var x = 0; x < size.Width; ++x) {
-                            _Background[bg.Layer][location.X + x, location.Y + y] = bg[x, y];
+                            _Background[layer][location.X + x, location.Y + y] = bg[x, y];
                         }
                     }
                     bg.IsDirty = false;
@@ -48,18 +49,19 @@ namespace Poco.Controllers
         public void FromGZippedBase64String(int layer, int width, int height, string value) {
             var background = _Background[layer];
             using (var memory = new MemoryStream(Convert.FromBase64String(value)))
-            using (var stream = new GZipStream(memory, CompressionMode.Decompress)) {
-                var buffer = new byte[width * height * 4];
-                stream.Read(buffer, 0, buffer.Length);
-                var map = buffer.Buffer(4).Select(b => BitConverter.ToInt32(b.ToArray(), 0)).ToArray();
-                for (var y = 0; y < 20; ++y) {
-                    for (var x = 0; x < 30; ++x) {
-                        var c = map[x + y * 30];
-                        if (c == 0) continue;
-                        background[x, y].No = c - 1;
+                using (var stream = new GZipStream(memory, CompressionMode.Decompress)) {
+                    var buffer = new byte[width * height * 4];
+                    stream.Read(buffer, 0, buffer.Length);
+                    var map = buffer.Buffer(4).Select(b => BitConverter.ToInt32(b.ToArray(), 0)).ToArray();
+                    for (var y = 0; y < 20; ++y) {
+                        for (var x = 0; x < 30; ++x) {
+                            var c = map[x + y * 30];
+                            if (c == 0)
+                                continue;
+                            background[x, y].No = c - 1;
+                        }
                     }
                 }
-            }
         }
 
         public void Reset(int layer) {
@@ -72,9 +74,14 @@ namespace Poco.Controllers
         public interface IBackgroundComponent
         {
             bool IsDirty { get; set; }
+
             int Layer { get; }
+
             Rectangle Rectangle { get; }
+
             ref Character this[int x, int y] { get; }
+
+            //void Updated();
         }
     }
 }

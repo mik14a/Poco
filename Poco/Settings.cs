@@ -26,6 +26,7 @@ namespace Poco
                 Scale = 2
             };
         }
+
         public struct Backgrounds
         {
             public int Layer;
@@ -47,6 +48,5 @@ namespace Poco
                 VideoRamSize = 256
             };
         }
-
     }
 }

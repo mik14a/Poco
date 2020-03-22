@@ -14,6 +14,7 @@ namespace Poco
             Rotate180 = 0x10,
             Rotate270 = 0x11
         }
+
         [Flags]
         public enum Flips
         {

@@ -8,19 +8,21 @@ namespace Poco
 {
     public sealed class VideoRam : IDisposable
     {
-        public int Size => _Size;
-        public int Texture => _Texture;
-        public int Sampler => _Sampler;
+        public int Size { get; }
+
+        public int Texture { get; }
+
+        public int Sampler { get; }
 
         public VideoRam(int size) {
-            _Size = size;
-            _Bitmap = new Bitmap(_Size, _Size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            _Texture = GL.GenTexture();
-            _Sampler = GL.GenSampler();
-            GL.BindTexture(TextureTarget.Texture2D, _Texture);
-            TexImage2D(_Size, _Size, IntPtr.Zero);
-            GL.SamplerParameter(_Sampler, SamplerParameterName.TextureMinFilter, (int)TextureMagFilter.Nearest);
-            GL.SamplerParameter(_Sampler, SamplerParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+            Size = size;
+            _Bitmap = new Bitmap(Size, Size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Texture = GL.GenTexture();
+            Sampler = GL.GenSampler();
+            GL.BindTexture(TextureTarget.Texture2D, Texture);
+            TexImage2D(Size, Size, IntPtr.Zero);
+            GL.SamplerParameter(Sampler, SamplerParameterName.TextureMinFilter, (int)TextureMagFilter.Nearest);
+            GL.SamplerParameter(Sampler, SamplerParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
         }
 
         public void Load(int index, Image image) {
@@ -39,7 +41,7 @@ namespace Poco
 
         public void Dispose() {
             _Bitmap.Dispose();
-            GL.DeleteTexture(_Texture);
+            GL.DeleteTexture(Texture);
             GC.SuppressFinalize(this);
         }
 
@@ -48,16 +50,13 @@ namespace Poco
         }
 
         void Invalidate() {
-            GL.BindTexture(TextureTarget.Texture2D, _Texture);
+            GL.BindTexture(TextureTarget.Texture2D, Texture);
             var bitmapData = LockBits(_Bitmap);
             TexSubImage2D(bitmapData.Width, bitmapData.Height, bitmapData.Scan0);
             UnlockBits(_Bitmap, bitmapData);
         }
 
-        readonly int _Size;
         readonly Bitmap _Bitmap;
-        readonly int _Texture;
-        readonly int _Sampler;
 
         static BitmapData LockBits(Bitmap bitmap) {
             var rectangle = new Rectangle(Point.Empty, bitmap.Size);
@@ -84,6 +83,5 @@ namespace Poco
         static void UnlockBits(Bitmap bitmap, BitmapData bitmapData) {
             bitmap.UnlockBits(bitmapData);
         }
-
     }
 }

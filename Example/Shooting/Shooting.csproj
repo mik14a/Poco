@@ -10,4 +10,18 @@
     <ProjectReference Include="..\..\Poco.Sail\Poco.Sail.csproj" />
     <ProjectReference Include="..\..\Poco.Gui\Poco.Gui.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Bullet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Font.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Title.map">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
