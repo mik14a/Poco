@@ -19,7 +19,7 @@ namespace Shooting.Entities
         }
 
         UpdateHandler Initialize() {
-            Background.Layer = 0;
+            Background.Plane = 0;
             Background.Rectangle = new Rectangle(0, 0, 8, 1);
             return Control;
         }

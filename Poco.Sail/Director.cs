@@ -19,6 +19,10 @@ namespace Poco
 
         public long Elapsed { get; private set; }
 
+        public long Exec { get; private set; }
+
+        public long Draw { get; private set; }
+
         public Director(Machine machine) {
             Poco = machine;
             Input = new InputController(Poco.Inputs);
@@ -43,9 +47,11 @@ namespace Poco
                     Input.Update();
                     var scene = _Scene.Peek();
                     scene.Update();
+                    Exec = _Stopwatch.ElapsedTicks - Elapsed;
                     Background.Update();
                     Sprite.Update();
                     Poco.Update();
+                    Draw = _Stopwatch.ElapsedTicks - Exec;
                 }
             }
         }

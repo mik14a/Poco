@@ -70,7 +70,7 @@ namespace Poco
             // Create virtual device and memory instance.
             Inputs = new Input();
             Backgrounds = new Background(settings.Background);
-            Sprites = new Sprite(settings.Sprite);
+            Sprites = Sprite.Create(settings.Sprite);
 
             // Create rasterizer.
             _Rasterizer = new Rasterizer(ClientSize.Width, ClientSize.Height, scaleFactor, Backgrounds, Sprites);
