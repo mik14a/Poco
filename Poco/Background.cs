@@ -7,16 +7,20 @@ namespace Poco
 {
     public sealed partial class Background : IEnumerable<Background.Plane>, IDisposable
     {
-        public int Length => _Planes.Length;
+        public static Background Create(Settings.Backgrounds background) {
+            return new Background(background.Plane, background.MapSize, background.VideoRamSize);
+        }
+
+        public int Size => _Planes.Length;
 
         public ref Plane this[int index] {
             get { return ref _Planes[index]; }
         }
 
-        public Background(Settings.Backgrounds background) {
-            _Planes = new Plane[background.Plane];
+        Background(int plane, int mapSize, int videoRamSize) {
+            _Planes = new Plane[plane];
             for (var i = 0; i < _Planes.Length; ++i) {
-                _Planes[i] = new Plane(background);
+                _Planes[i] = Plane.Create(mapSize, videoRamSize);
             }
         }
 

@@ -11,7 +11,8 @@ namespace Poco.Components
 
         public int Plane {
             get { return _Plane; }
-            set {
+            set
+            {
                 if (_Plane == value)
                     return;
                 _Plane = value;
@@ -21,7 +22,8 @@ namespace Poco.Components
 
         public Rectangle Rectangle {
             get { return _Rectangle; }
-            set {
+            set
+            {
                 if (_Rectangle == value)
                     return;
                 _Rectangle = value;
@@ -32,7 +34,8 @@ namespace Poco.Components
 
 
         public ref Background.Character this[int x, int y] {
-            get {
+            get
+            {
                 var index = x + y * _Rectangle.Width;
                 return ref _Map[index];
             }

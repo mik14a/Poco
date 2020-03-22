@@ -9,6 +9,9 @@ namespace Poco
     {
         public sealed class Plane : IEnumerable<Background.Character>, IDisposable
         {
+            public static Plane Create(int mapSize, int videoRamSize) {
+                return new Plane(mapSize, videoRamSize);
+            }
             public int Size { get; }
 
             public int X { get; set; }
@@ -27,10 +30,10 @@ namespace Poco
                 get { return ref _Map[x + y * Size]; }
             }
 
-            public Plane(Settings.Backgrounds backgrounds) {
-                Size = backgrounds.MapSize;
+            public Plane(int mapSize, int videoRamSize) {
+                Size = mapSize;
                 _Map = new Character[Size * Size];
-                VideoRam = new VideoRam(backgrounds.VideoRamSize);
+                VideoRam = new VideoRam(videoRamSize);
             }
 
             public void Load(int index, Image image) {

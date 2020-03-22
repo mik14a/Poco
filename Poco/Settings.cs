@@ -26,7 +26,7 @@ namespace Poco
             public static Screens Default = new Screens {
                 Width = 240,
                 Height = 160,
-                Scale = 2
+                Scale = 4
             };
         }
 

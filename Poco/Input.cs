@@ -6,6 +6,10 @@ namespace Poco
 {
     public sealed class Input
     {
+        public static Input Create() {
+            return new Input();
+        }
+
         public enum Keys : uint
         {
             Up = 1 << 7,
@@ -19,6 +23,9 @@ namespace Poco
         }
 
         public Keys Key { get; private set; } = 0;
+
+        Input() {
+        }
 
         public void Populate() {
             var gamePad = GetGamePad(GamePad.GetState(0));

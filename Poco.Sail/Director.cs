@@ -47,7 +47,7 @@ namespace Poco
                     Input.Update();
                     var scene = _Scene.Peek();
                     scene.Update();
-                    Exec = _Stopwatch.ElapsedTicks - Elapsed;
+                    Exec = _Stopwatch.ElapsedTicks;
                     Background.Update();
                     Sprite.Update();
                     Poco.Update();

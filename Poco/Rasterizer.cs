@@ -19,7 +19,7 @@ namespace Poco.Internals
             GL.PolygonMode(MaterialFace.Front, PolygonMode.Fill);
             GL.Enable(EnableCap.AlphaTest);
             GL.AlphaFunc(AlphaFunction.Equal, 1f);
-            _BackgroundShader = new BackgroundShader[background.Length];
+            _BackgroundShader = new BackgroundShader[background.Size];
             for (var i = 0; i < _BackgroundShader.Length; ++i) {
                 _BackgroundShader[i] = new BackgroundShader(background[i]);
             }

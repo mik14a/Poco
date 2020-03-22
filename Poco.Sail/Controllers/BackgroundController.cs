@@ -11,7 +11,7 @@ namespace Poco.Controllers
     {
         public BackgroundController(Background background) {
             _Background = background;
-            _VideoRamManager = new VideoRamManager[_Background.Length];
+            _VideoRamManager = new VideoRamManager[_Background.Size];
             for (var i = 0; i < _VideoRamManager.Length; ++i) {
                 _VideoRamManager[i] = new VideoRamManager(_Background[i].VideoRam);
             }
@@ -46,19 +46,20 @@ namespace Poco.Controllers
             }
         }
 
-        public void FromGZippedBase64String(int layer, int width, int height, string value) {
-            var background = _Background[layer];
-            using (var memory = new MemoryStream(Convert.FromBase64String(value)))
-            using (var stream = new GZipStream(memory, CompressionMode.Decompress)) {
-                var buffer = new byte[width * height * 4];
-                stream.Read(buffer, 0, buffer.Length);
-                var map = buffer.Buffer(4).Select(b => BitConverter.ToInt32(b.ToArray(), 0)).ToArray();
-                for (var y = 0; y < 20; ++y) {
-                    for (var x = 0; x < 30; ++x) {
-                        var c = map[x + y * 30];
-                        if (c == 0)
-                            continue;
-                        background[x, y].No = c - 1;
+        public void FromGZippedBase64String(int plane, int width, int height, string value) {
+            var background = _Background[plane];
+            using (var memory = new MemoryStream(Convert.FromBase64String(value))) {
+                using (var stream = new GZipStream(memory, CompressionMode.Decompress)) {
+                    var buffer = new byte[width * height * 4];
+                    stream.Read(buffer, 0, buffer.Length);
+                    var map = buffer.Buffer(4).Select(b => BitConverter.ToInt32(b.ToArray(), 0)).ToArray();
+                    for (var y = 0; y < 20; ++y) {
+                        for (var x = 0; x < 30; ++x) {
+                            var c = map[x + y * 30];
+                            if (c == 0)
+                                continue;
+                            background[x, y].No = c - 1;
+                        }
                     }
                 }
             }
@@ -80,8 +81,6 @@ namespace Poco.Controllers
             Rectangle Rectangle { get; }
 
             ref Background.Character this[int x, int y] { get; }
-
-            //void Updated();
         }
     }
 }

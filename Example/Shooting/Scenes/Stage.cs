@@ -14,10 +14,14 @@ namespace Shooting.Scenes
             Bullet.Index = Director.Sprite.Load(@"Assets\Bullet.png");
             _Player = Add<Player>();
             _Score = Add<Score>();
+            _Exec = Add<Exec>();
+            _Draw = Add<Draw>();
         }
 
         UpdateHandler Control() {
             _Score.Value = (int)Director.Elapsed;
+            _Exec.Value = (int)Director.Exec;
+            _Draw.Value = (int)Director.Draw;
             return Control;
         }
 
@@ -27,5 +31,7 @@ namespace Shooting.Scenes
 
         Player _Player;
         Score _Score;
+        Exec _Exec;
+        Draw _Draw;
     }
 }

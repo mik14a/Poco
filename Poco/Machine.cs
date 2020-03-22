@@ -63,13 +63,13 @@ namespace Poco
 
             // Create and initialize OpenTK context.
             _Context = new OpenTK.Graphics.GraphicsContext(OpenTK.Graphics.GraphicsMode.Default, WindowInfo, 3, 0, OpenTK.Graphics.GraphicsContextFlags.Default);
-            _Context.SwapInterval = -1;
+            _Context.SwapInterval = 0;
             _Context.MakeCurrent(WindowInfo);
             _Context.LoadAll();
 
             // Create virtual device and memory instance.
-            Inputs = new Input();
-            Backgrounds = new Background(settings.Background);
+            Inputs = Input.Create();
+            Backgrounds = Background.Create(settings.Background);
             Sprites = Sprite.Create(settings.Sprite);
 
             // Create rasterizer.
