@@ -16,7 +16,7 @@ namespace Shooting.Scenes
 
         UpdateHandler Control() {
             if (Director.Input.Pressed(Input.Keys.Start)) {
-                Director.Poco.Background[0].Reset();
+                Director.Poco.Backgrounds[0].Reset();
                 Director.Background.Reset(0);
                 Director.Enter<Stage>();
             }

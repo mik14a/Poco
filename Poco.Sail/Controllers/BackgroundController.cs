@@ -9,7 +9,7 @@ namespace Poco.Controllers
 {
     public class BackgroundController : Controller
     {
-        public BackgroundController(Background[] background) {
+        public BackgroundController(Background background) {
             _Background = background;
             _VideoRamManager = new VideoRamManager[_Background.Length];
             for (var i = 0; i < _VideoRamManager.Length; ++i) {
@@ -68,7 +68,7 @@ namespace Poco.Controllers
             _VideoRamManager[layer].Reset();
         }
 
-        readonly Background[] _Background;
+        readonly Background _Background;
         readonly VideoRamManager[] _VideoRamManager;
 
         public interface IBackgroundComponent
@@ -79,7 +79,7 @@ namespace Poco.Controllers
 
             Rectangle Rectangle { get; }
 
-            ref Character this[int x, int y] { get; }
+            ref Background.Character this[int x, int y] { get; }
 
             //void Updated();
         }

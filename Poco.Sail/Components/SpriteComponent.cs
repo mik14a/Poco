@@ -20,8 +20,8 @@ namespace Poco.Components
         protected SpriteComponent() {
         }
 
-        Object SpriteController.ISpriteComponent.ToObject() {
-            return new Object {
+        Sprite.Attribute SpriteController.ISpriteComponent.ToObject() {
+            return new Sprite.Attribute {
                 Enable = true,
                 Name = Name,
                 Priority = Priority,

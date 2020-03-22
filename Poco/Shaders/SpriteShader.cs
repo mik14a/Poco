@@ -65,12 +65,12 @@ namespace Poco.Shaders
             _Coord.GenerateDynamic();
         }
 
-        void UpdateCoord(Object @object) {
+        void UpdateCoord(Sprite.Attribute attribute) {
             var image = _Sprite.VideoRam.Size;
             var size = new SizeF(8f / image, 8f / image);
-            for (var y = 0; y < @object.Size.Height; ++y) {
-                for (var x = 0; x < @object.Size.Width; ++x) {
-                    var name = @object.Name + x + y * @object.Size.Width;
+            for (var y = 0; y < attribute.Size.Height; ++y) {
+                for (var x = 0; x < attribute.Size.Width; ++x) {
+                    var name = attribute.Name + x + y * attribute.Size.Width;
                     var u = name % (image / 8);
                     var v = name / (image / 8);
                     var location = new PointF(u * 8f / image, v * 8f / image);
@@ -91,11 +91,11 @@ namespace Poco.Shaders
             _Index.GenerateDynamic();
         }
 
-        void UpdateIndex(Object @object) {
-            for (var y = 0; y < @object.Size.Height; ++y) {
-                for (var x = 0; x < @object.Size.Width; x++) {
+        void UpdateIndex(Sprite.Attribute attribute) {
+            for (var y = 0; y < attribute.Size.Height; ++y) {
+                for (var x = 0; x < attribute.Size.Width; x++) {
                     var vertex = (x + y * Size) * 4;
-                    var index = (x + y * @object.Size.Width) * 6;
+                    var index = (x + y * attribute.Size.Width) * 6;
                     _Index[index + 0] = 0 + vertex;
                     _Index[index + 1] = 1 + vertex;
                     _Index[index + 2] = 2 + vertex;

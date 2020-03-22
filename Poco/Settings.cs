@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Poco
 {
+    /// <summary>
+    /// Poco machine settings.
+    /// </summary>
     public struct Settings
     {
         public static readonly Settings Default = new Settings {
@@ -29,11 +32,11 @@ namespace Poco
 
         public struct Backgrounds
         {
-            public int Layer;
+            public int Plane;
             public int MapSize;
             public int VideoRamSize;
             public static Backgrounds Default = new Backgrounds {
-                Layer = 4,
+                Plane = 4,
                 MapSize = 32,
                 VideoRamSize = 256
             };

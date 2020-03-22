@@ -9,8 +9,8 @@ namespace Poco.Managers
 {
     public class FontManager
     {
-        public unsafe FontManager(Background background) {
-            _Background = background;
+        public unsafe FontManager(Background.Plane background) {
+            _Plane = background;
         }
 
         public void LoadFont(Font font, int index, char[] glyphs) {
@@ -19,20 +19,20 @@ namespace Poco.Managers
                     using (var graphics = Graphics.FromImage(image)) {
                         graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
                         glyphs.ForEach((c, i) => graphics.DrawString(c.ToString(), font, brush, i * 8, 0));
-                        _Background.Load(index, image);
+                        _Plane.Load(index, image);
                     }
             glyphs.ForEach((c, i) => _Characters.Add(c, i));
         }
 
         public void PutString(int x, int y, string value) {
             var array = value.Select(c => _Characters[c]).ToArray();
-            array.ForEach((c, i) => _Background[x + i, y] =
-                new Character() {
+            array.ForEach((c, i) => _Plane[x + i, y] =
+                new Background.Character() {
                 No = c
             });
         }
 
         readonly Dictionary<char, int> _Characters = new Dictionary<char, int>();
-        readonly Background _Background;
+        readonly Background.Plane _Plane;
     }
 }

@@ -21,9 +21,9 @@ namespace Poco
 
         public Director(Machine machine) {
             Poco = machine;
-            Input = new InputController(Poco.Input);
-            Background = new BackgroundController(Poco.Background);
-            Sprite = new SpriteController(Poco.Sprite);
+            Input = new InputController(Poco.Inputs);
+            Background = new BackgroundController(Poco.Backgrounds);
+            Sprite = new SpriteController(Poco.Sprites);
             _Scene = new Stack<Scene>();
         }
 

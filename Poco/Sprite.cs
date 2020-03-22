@@ -6,22 +6,25 @@ using System.Linq;
 
 namespace Poco
 {
-    public sealed class Sprite : IEnumerable<Object>, IDisposable
+    /// <summary>
+    /// Sprite memory.
+    /// </summary>
+    public sealed class Sprite : IEnumerable<Sprite.Attribute>, IDisposable
     {
         public int Size { get; }
 
-        public Object[] Attribute { get; }
+        public Attribute[] Attributes { get; }
 
         public VideoRam VideoRam { get; }
 
-        public ref Object this[int index]
+        public ref Attribute this[int index]
         {
-            get { return ref Attribute[index]; }
+            get { return ref Attributes[index]; }
         }
 
         public Sprite(Settings.Sprites sprites) {
             Size = sprites.AttributeSize;
-            Attribute = new Object[sprites.AttributeSize];
+            Attributes = new Attribute[sprites.AttributeSize];
             VideoRam = new VideoRam(sprites.VideoRamSize);
         }
 
@@ -30,11 +33,11 @@ namespace Poco
         }
 
         public void Reset() {
-            Array.Clear(Attribute, 0, Attribute.Length);
+            Array.Clear(Attributes, 0, Attributes.Length);
         }
 
-        public IEnumerator<Object> GetEnumerator() {
-            return ((IEnumerable<Object>)Attribute).GetEnumerator();
+        public IEnumerator<Attribute> GetEnumerator() {
+            return ((IEnumerable<Attribute>)Attributes).GetEnumerator();
         }
 
         public void Dispose() {
@@ -43,7 +46,17 @@ namespace Poco
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            return Attribute.GetEnumerator();
+            return Attributes.GetEnumerator();
+        }
+
+        public struct Attribute
+        {
+            public bool Enable;
+            public int Name;
+            public int Priority;
+            public int X;
+            public int Y;
+            public Size Size;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Poco.Managers
 
         public interface ISpriteComponent
         {
-            Object ToObject();
+            Sprite.Attribute ToObject();
         }
     }
 }

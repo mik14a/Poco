@@ -8,9 +8,9 @@ namespace Poco.Shaders
 {
     class BackgroundShader : Shader
     {
-        public BackgroundShader(Background background)
+        public BackgroundShader(Background.Plane background)
             : base("Poco.Shaders.Background.vert", "Poco.Shaders.Background.frag") {
-            _Background = background;
+            _Plane = background;
             _Projection = GL.GetUniformLocation(Handle, "projection");
             _ModelView = GL.GetUniformLocation(Handle, "modelview");
             _Texture = GL.GetUniformLocation(Handle, "texture");
@@ -27,8 +27,8 @@ namespace Poco.Shaders
             GL.UseProgram(Handle);
             GL.BindVertexArray(_VertexArray);
             GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, _Background.VideoRam.Texture);
-            GL.BindSampler(0, _Background.VideoRam.Sampler);
+            GL.BindTexture(TextureTarget.Texture2D, _Plane.VideoRam.Texture);
+            GL.BindSampler(0, _Plane.VideoRam.Sampler);
             GL.UniformMatrix4(_Projection, false, ref projection);
             GL.Uniform1(_Texture, 0);
             GL.DrawElements(PrimitiveType.Triangles, _Index.Buffer.Length, DrawElementsType.UnsignedInt, IntPtr.Zero);
@@ -37,7 +37,7 @@ namespace Poco.Shaders
         }
 
         void GenerateVertex() {
-            var size = _Background.Size;
+            var size = _Plane.Size;
             var buffer = new Vector2[size * size * 4];
             for (var y = 0; y < size; ++y) {
                 for (var x = 0; x < size; x++) {
@@ -53,19 +53,19 @@ namespace Poco.Shaders
         }
 
         void GenerateCoord() {
-            var size = _Background.Size;
+            var size = _Plane.Size;
             var buffer = new Vector2[size * size * 4];
             _Coord = new ArrayBuffer<Vector2>(Handle, "coord", buffer);
             _Coord.GenerateDynamic();
         }
 
         void UpdateCoord() {
-            var stride = _Background.Size;
-            var image = _Background.VideoRam.Size;
+            var stride = _Plane.Size;
+            var image = _Plane.VideoRam.Size;
             var size = new SizeF(8f / image, 8f / image);
             for (var y = 0; y < stride; ++y) {
                 for (var x = 0; x < stride; ++x) {
-                    var c = _Background[x, y];
+                    var c = _Plane[x, y];
                     var u = c.No % (image / 8);
                     var v = c.No / (image / 8);
                     var location = new PointF(u * 8f / image, v * 8f / image);
@@ -81,7 +81,7 @@ namespace Poco.Shaders
         }
 
         void GenerateIndex() {
-            var size = _Background.Size;
+            var size = _Plane.Size;
             var buffer = new int[size * size * 6];
             for (var y = 0; y < size; ++y) {
                 for (var x = 0; x < size; x++) {
@@ -99,7 +99,7 @@ namespace Poco.Shaders
             _Index.GenerateStatic();
         }
 
-        readonly Background _Background;
+        readonly Background.Plane _Plane;
         readonly int _Projection;
         readonly int _ModelView;
         readonly int _Texture;

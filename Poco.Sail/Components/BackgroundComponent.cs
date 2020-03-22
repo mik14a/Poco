@@ -27,13 +27,13 @@ namespace Poco.Components
                 if (_Rectangle == value)
                     return;
                 _Rectangle = value;
-                _Map = new Character[_Rectangle.Width * _Rectangle.Height];
+                _Map = new Background.Character[_Rectangle.Width * _Rectangle.Height];
                 IsDirty = true;
             }
         }
 
 
-        public ref Character this[int x, int y] {
+        public ref Background.Character this[int x, int y] {
             get
             {
                 var index = x + y * _Rectangle.Width;
@@ -50,6 +50,6 @@ namespace Poco.Components
 
         int _Layer;
         Rectangle _Rectangle;
-        Character[] _Map;
+        Background.Character[] _Map;
     }
 }

@@ -5,11 +5,11 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Poco.Shaders;
 
-namespace Poco
+namespace Poco.Internals
 {
     sealed class Rasterizer : IDisposable
     {
-        public Rasterizer(int width, int height, float scale, Background[] background, Sprite sprite) {
+        public Rasterizer(int width, int height, float scale, Background background, Sprite sprite) {
             _Width = width;
             _Height = height;
             _Scale = scale;
