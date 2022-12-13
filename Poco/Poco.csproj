@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="3.1.0" />
+    <PackageReference Include="OpenTK" Version="3.3.3" />
     <PackageReference Include="System.Interactive" Version="4.0.0" />
   </ItemGroup>
 
